@@ -133,5 +133,9 @@ records the diagnosis and the rework.
 
 ## Agent Guidance
 
+[GPIO connectivity evidence](../kicad/observation/README.md) records the checked
+current-source export consumed by firmware, its reproduction procedure and the
+outstanding comparison with the fabrication revision.
+
 `AGENTS.md` and `.agents/` carry the agent-facing guidance, plans and handoffs
 for this repository. They assume the sibling checkouts above.

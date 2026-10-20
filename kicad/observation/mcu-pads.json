@@ -1,0 +1,236 @@
+{
+  "schema": 1,
+  "reference": "U601",
+  "source_revision": "3edd5d0913f2028529597f80ccd57609dc61e66b",
+  "method": "mcp__kicad__get_footprint_pads",
+  "pads": [
+    {
+      "number": "1",
+      "net": "/+3.3V_MCU"
+    },
+    {
+      "number": "2",
+      "net": "/PYC_UART_TX"
+    },
+    {
+      "number": "3",
+      "net": "/PYC_UART_RX"
+    },
+    {
+      "number": "4",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/GPIO2"
+    },
+    {
+      "number": "5",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/GPIO3"
+    },
+    {
+      "number": "6",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/GPIO4"
+    },
+    {
+      "number": "7",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/GPIO5"
+    },
+    {
+      "number": "8",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/GPIO6"
+    },
+    {
+      "number": "9",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/GPIO7"
+    },
+    {
+      "number": "10",
+      "net": "/+3.3V_MCU"
+    },
+    {
+      "number": "11",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/GPIO8"
+    },
+    {
+      "number": "12",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/~{BUS_SW_EN}"
+    },
+    {
+      "number": "13",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/GPIO10"
+    },
+    {
+      "number": "14",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/GPIO11"
+    },
+    {
+      "number": "15",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/GPIO12"
+    },
+    {
+      "number": "16",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/GPIO13"
+    },
+    {
+      "number": "17",
+      "net": "/HV_DIAG_EN"
+    },
+    {
+      "number": "18",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/GPIO15"
+    },
+    {
+      "number": "19",
+      "net": "/GND"
+    },
+    {
+      "number": "20",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/XIN"
+    },
+    {
+      "number": "21",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/XOUT"
+    },
+    {
+      "number": "22",
+      "net": "/+3.3V_MCU"
+    },
+    {
+      "number": "23",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/+1.1V"
+    },
+    {
+      "number": "24",
+      "net": "unconnected-(U601-SWCLK-Pad24)"
+    },
+    {
+      "number": "25",
+      "net": "unconnected-(U601-SWD-Pad25)"
+    },
+    {
+      "number": "26",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/RUN"
+    },
+    {
+      "number": "27",
+      "net": "/mcu/DAC_SDA_BYP"
+    },
+    {
+      "number": "28",
+      "net": "/mcu/DAC_SCL_BYP"
+    },
+    {
+      "number": "29",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/GPIO18"
+    },
+    {
+      "number": "30",
+      "net": "/HV_EN"
+    },
+    {
+      "number": "31",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/GPIO20"
+    },
+    {
+      "number": "32",
+      "net": "/FW_TRIG1"
+    },
+    {
+      "number": "33",
+      "net": "/+3.3V_MCU"
+    },
+    {
+      "number": "34",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/GPIO22"
+    },
+    {
+      "number": "35",
+      "net": "/~{HV_FAULT}"
+    },
+    {
+      "number": "36",
+      "net": "/HV_LATCH"
+    },
+    {
+      "number": "37",
+      "net": "/FW_TRIG0"
+    },
+    {
+      "number": "38",
+      "net": "/mcu/SW_RAIL_SENSE_DIV_2"
+    },
+    {
+      "number": "39",
+      "net": "/BRAKE_ISENSE"
+    },
+    {
+      "number": "40",
+      "net": "/HV_SNS"
+    },
+    {
+      "number": "41",
+      "net": "/ANGLE_OUT_MON"
+    },
+    {
+      "number": "42",
+      "net": "/+3.3V_MCU"
+    },
+    {
+      "number": "43",
+      "net": "/+3.3V_MCU"
+    },
+    {
+      "number": "44",
+      "net": "/+3.3V_MCU"
+    },
+    {
+      "number": "45",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/+1.1V"
+    },
+    {
+      "number": "46",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/D-"
+    },
+    {
+      "number": "47",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/D+"
+    },
+    {
+      "number": "48",
+      "net": "/+3.3V_MCU"
+    },
+    {
+      "number": "49",
+      "net": "/+3.3V_MCU"
+    },
+    {
+      "number": "50",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/+1.1V"
+    },
+    {
+      "number": "51",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/QSPI_SD3"
+    },
+    {
+      "number": "52",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/QSPI_SCLK"
+    },
+    {
+      "number": "53",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/QSPI_SD0"
+    },
+    {
+      "number": "54",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/QSPI_SD2"
+    },
+    {
+      "number": "55",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/QSPI_SD1"
+    },
+    {
+      "number": "56",
+      "net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/QSPI_SS"
+    },
+    {
+      "number": "57",
+      "net": "/GND"
+    }
+  ]
+}

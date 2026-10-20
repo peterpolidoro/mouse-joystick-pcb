@@ -1,0 +1,279 @@
+{
+  "schema": 1,
+  "board": "mouse-joystick-pcb",
+  "board_revision": "v1.0",
+  "firmware_board_rev": 2,
+  "source_revision": "3edd5d0913f2028529597f80ccd57609dc61e66b",
+  "scope": "current-head-connectivity; manufactured comparison pending",
+  "mcu_reference": "U601",
+  "signals": {
+    "/ANGLE_OUT_MON": {
+      "pad": "41",
+      "mcu_net": "/ANGLE_OUT_MON",
+      "gpio": 29,
+      "conditional_switches": [],
+      "active_low": false,
+      "meaning": "Analog output readback, ADC3\u00b9\u00b9; in as the MCU sees it"
+    },
+    "/BRAKE_ISENSE": {
+      "pad": "39",
+      "mcu_net": "/BRAKE_ISENSE",
+      "gpio": 27,
+      "conditional_switches": [],
+      "active_low": false,
+      "meaning": "Brake sink current readback, ADC1\u00b9\u00b9; in as the MCU sees it"
+    },
+    "/DAC_SCL": {
+      "pad": "28",
+      "mcu_net": "/mcu/DAC_SCL_BYP",
+      "gpio": 17,
+      "conditional_switches": [
+        "U605"
+      ],
+      "active_low": false,
+      "meaning": "I2C0 SCL \u2014 same bus\u2077; out as the MCU sees it, via the bus switch"
+    },
+    "/DAC_SDA": {
+      "pad": "27",
+      "mcu_net": "/mcu/DAC_SDA_BYP",
+      "gpio": 16,
+      "conditional_switches": [
+        "U605"
+      ],
+      "active_low": false,
+      "meaning": "I2C0 SDA \u2014 analog 0x48, brake 0x49\u2077; bidi as the MCU sees it, via the bus switch"
+    },
+    "/FW_TRIG0": {
+      "pad": "37",
+      "mcu_net": "/FW_TRIG0",
+      "gpio": 25,
+      "conditional_switches": [],
+      "active_low": false,
+      "meaning": "Firmware timing marker; out as the MCU sees it"
+    },
+    "/FW_TRIG1": {
+      "pad": "32",
+      "mcu_net": "/FW_TRIG1",
+      "gpio": 21,
+      "conditional_switches": [],
+      "active_low": false,
+      "meaning": "Firmware timing marker; out as the MCU sees it"
+    },
+    "/HV_DIAG_EN": {
+      "pad": "17",
+      "mcu_net": "/HV_DIAG_EN",
+      "gpio": 14,
+      "conditional_switches": [],
+      "active_low": false,
+      "meaning": "36 V switch diagnostics enable\u2075; out as the MCU sees it"
+    },
+    "/HV_EN": {
+      "pad": "30",
+      "mcu_net": "/HV_EN",
+      "gpio": 19,
+      "conditional_switches": [],
+      "active_low": false,
+      "meaning": "36 V input switch enable; out as the MCU sees it"
+    },
+    "/HV_LATCH": {
+      "pad": "36",
+      "mcu_net": "/HV_LATCH",
+      "gpio": 24,
+      "conditional_switches": [],
+      "active_low": false,
+      "meaning": "36 V switch latch-off select\u00b9\u2070; out as the MCU sees it"
+    },
+    "/HV_SNS": {
+      "pad": "40",
+      "mcu_net": "/HV_SNS",
+      "gpio": 28,
+      "conditional_switches": [],
+      "active_low": false,
+      "meaning": "36 V input load-current sense, `R_SNS` = 249 \u03a9; in as the MCU sees it"
+    },
+    "/PYC_UART_RX": {
+      "pad": "3",
+      "mcu_net": "/PYC_UART_RX",
+      "gpio": 1,
+      "conditional_switches": [],
+      "active_low": false,
+      "meaning": "UART RX from pyControl (`UART0 RX`); in as the MCU sees it"
+    },
+    "/PYC_UART_TX": {
+      "pad": "2",
+      "mcu_net": "/PYC_UART_TX",
+      "gpio": 0,
+      "conditional_switches": [],
+      "active_low": false,
+      "meaning": "UART TX to pyControl (`UART0 TX`); out as the MCU sees it"
+    },
+    "/TMC_DIAG0": {
+      "pad": "7",
+      "mcu_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/GPIO5",
+      "gpio": 5,
+      "conditional_switches": [
+        "U603"
+      ],
+      "active_low": false,
+      "meaning": "Driver diagnostic 0; in as the MCU sees it, via the bus switch"
+    },
+    "/TMC_DIAG1": {
+      "pad": "11",
+      "mcu_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/GPIO8",
+      "gpio": 8,
+      "conditional_switches": [
+        "U604"
+      ],
+      "active_low": false,
+      "meaning": "Driver diagnostic 1; in as the MCU sees it, via the bus switch"
+    },
+    "/TMC_SPI_CIPO": {
+      "pad": "6",
+      "mcu_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/GPIO4",
+      "gpio": 4,
+      "conditional_switches": [
+        "U603"
+      ],
+      "active_low": false,
+      "meaning": "Driver SPI CIPO (`SPI0 RX`); in as the MCU sees it, via the bus switch"
+    },
+    "/TMC_SPI_COPI": {
+      "pad": "9",
+      "mcu_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/GPIO7",
+      "gpio": 7,
+      "conditional_switches": [
+        "U603"
+      ],
+      "active_low": false,
+      "meaning": "Driver SPI COPI (`SPI0 TX`); out as the MCU sees it, via the bus switch"
+    },
+    "/TMC_SPI_SCK": {
+      "pad": "8",
+      "mcu_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/GPIO6",
+      "gpio": 6,
+      "conditional_switches": [
+        "U603"
+      ],
+      "active_low": false,
+      "meaning": "Driver SPI clock (`SPI0 SCK`); out as the MCU sees it, via the bus switch"
+    },
+    "/TQ_CAL_EN": {
+      "pad": "29",
+      "mcu_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/GPIO18",
+      "gpio": 18,
+      "conditional_switches": [
+        "U605"
+      ],
+      "active_low": false,
+      "meaning": "Torque calibration enable\u2077; out as the MCU sees it, via the bus switch"
+    },
+    "/TQ_CONVST_CS": {
+      "pad": "18",
+      "mcu_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/GPIO15",
+      "gpio": 15,
+      "conditional_switches": [
+        "U604"
+      ],
+      "active_low": false,
+      "meaning": "ADS8689 convert-start / frame, plain GPIO\u2077; out as the MCU sees it, via the bus switch"
+    },
+    "/TQ_SPI_CIPO": {
+      "pad": "15",
+      "mcu_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/GPIO12",
+      "gpio": 12,
+      "conditional_switches": [
+        "U604"
+      ],
+      "active_low": false,
+      "meaning": "Torque ADC SPI CIPO (`SPI1 RX`)\u2077; in as the MCU sees it, via the bus switch"
+    },
+    "/TQ_SPI_COPI": {
+      "pad": "14",
+      "mcu_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/GPIO11",
+      "gpio": 11,
+      "conditional_switches": [
+        "U604"
+      ],
+      "active_low": false,
+      "meaning": "Torque ADC SPI COPI (`SPI1 TX`)\u2077; out as the MCU sees it, via the bus switch"
+    },
+    "/TQ_SPI_SCK": {
+      "pad": "13",
+      "mcu_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/GPIO10",
+      "gpio": 10,
+      "conditional_switches": [
+        "U604"
+      ],
+      "active_low": false,
+      "meaning": "Torque ADC SPI clock (`SPI1 SCK`)\u2077; out as the MCU sees it, via the bus switch"
+    },
+    "/~{BRAKE_FAULT}": {
+      "pad": "16",
+      "mcu_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/GPIO13",
+      "gpio": 13,
+      "conditional_switches": [
+        "U604"
+      ],
+      "active_low": true,
+      "meaning": "Brake block fault, active low\u2077; in as the MCU sees it, via the bus switch"
+    },
+    "/~{HV_FAULT}": {
+      "pad": "35",
+      "mcu_net": "/~{HV_FAULT}",
+      "gpio": 23,
+      "conditional_switches": [],
+      "active_low": true,
+      "meaning": "36 V switch fault, open-drain, pull-up 3.3 V\u00b9\u00b9; in as the MCU sees it"
+    },
+    "/~{TMC_CS}": {
+      "pad": "4",
+      "mcu_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/GPIO2",
+      "gpio": 2,
+      "conditional_switches": [
+        "U603"
+      ],
+      "active_low": true,
+      "meaning": "Driver chip select; out as the MCU sees it, via the bus switch"
+    },
+    "/~{TMC_DRV_EN}": {
+      "pad": "5",
+      "mcu_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/GPIO3",
+      "gpio": 3,
+      "conditional_switches": [
+        "U603"
+      ],
+      "active_low": true,
+      "meaning": "Driver enable, active low; out as the MCU sees it, via the bus switch"
+    },
+    "/mcu/SW_RAIL_SENSE_DIV_2": {
+      "pad": "38",
+      "mcu_net": "/mcu/SW_RAIL_SENSE_DIV_2",
+      "gpio": 26,
+      "conditional_switches": [],
+      "active_low": false,
+      "meaning": "+3.3V_SW presence and level, divided by 2 inside mcu (R408/R409); in as the MCU sees it"
+    },
+    "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/~{BUS_SW_EN}": {
+      "pad": "12",
+      "mcu_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/~{BUS_SW_EN}",
+      "gpio": 9,
+      "conditional_switches": [],
+      "active_low": true,
+      "meaning": "Active-low isolation enable, directly driven; pull-up isolates at reset"
+    }
+  },
+  "spare_gpios": [
+    20,
+    22
+  ],
+  "netlist_sha256": "2017cbbc7d6102856ce70e0377a25849c5f0ca624106b1c8e795e379d26567ab",
+  "limits": [
+    "Current exported schematic and selected PCB pads checked; manufactured-revision equivalence is not established by this export.",
+    "Switch paths are conditional on enable. Reset/off-state electrical behavior and peripheral mux legality require separate checks."
+  ],
+  "inputs_sha256": {
+    "pads": "d3027489c44bad2ce2cb575f8f373d5fec7e11feec5757d09128cea9d489a4e2",
+    "board": "d5cceca2db769c5184e17c90a3486731598c741055e682d71eb300056073b942",
+    "contract": "3f8969ce701e3b906c73cc7c16bb87fdd9f3b3bfa52fdc181417e1e3be1bafa6"
+  }
+}

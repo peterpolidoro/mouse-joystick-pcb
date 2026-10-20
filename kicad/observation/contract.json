@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "board_revision": "v1.0",
+  "firmware_board_rev": 2,
+  "source_revision": "3edd5d0913f2028529597f80ccd57609dc61e66b",
+  "scope": "current-head-connectivity; manufactured comparison pending",
+  "mcu_reference": "U601",
+  "bus_switches": ["U603", "U604", "U605", "U606"],
+  "spare_gpios": [20, 22],
+  "extra_signals": {
+    "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/~{BUS_SW_EN}": {
+      "gpio": "GP9",
+      "meaning": "Active-low isolation enable, directly driven; pull-up isolates at reset"
+    }
+  }
+}

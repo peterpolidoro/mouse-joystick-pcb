@@ -3,6 +3,22 @@
 Use this file for work that is multi-step, risky, or likely to span multiple
 sessions.
 
+## 2026-10-20: GPIO facts for future-board readiness
+
+- [x] Current root netlist exported via KiCad MCP; U601 pad nets inspected via
+  MCP. `kicad/observation/` retains the 28-signal/two-spare checked facts,
+  contract, pad records and reproduction README. Shared checker is owned by
+  kicad-libs, firmware's consumer by mouse-joystick-firm.
+- [ ] Compare manufactured connectivity at
+  `646b8f47d9d09726598ad332c43e1b4714c95272` with current source
+  `3edd5d0913f2028529597f80ccd57609dc61e66b`. No local v1.0 tag; native file
+  blobs differ, so current-source agreement is not an equivalence assessment.
+- [ ] Extend to complete observation taps, domain/off-state and mux facts.
+
+No native KiCad file, fabrication package or bench log changed. Firmware's
+28 constants/spares compile against this export; deliberate mismatch tests
+are retained in the owning tools. See kicad-libs/PLANS readiness checkpoint.
+
 ## Documentation — complete for v1.0 (2026-10-15)
 
 The documentation program run from kicad-libs (its PLANS, 2026-10-12 to
