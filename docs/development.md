@@ -135,7 +135,7 @@ records the diagnosis and the rework.
 
 [GPIO connectivity evidence](../kicad/observation/README.md) records the checked
 current-source export consumed by firmware, its reproduction procedure and the
-outstanding comparison with the fabrication revision.
+completed comparison of logical pad assignments with the fabrication package.
 
 `AGENTS.md` and `.agents/` carry the agent-facing guidance, plans and handoffs
 for this repository. They assume the sibling checkouts above.

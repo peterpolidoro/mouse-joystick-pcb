@@ -9,15 +9,22 @@ sessions.
   MCP. `kicad/observation/` retains the 28-signal/two-spare checked facts,
   contract, pad records and reproduction README. Shared checker is owned by
   kicad-libs, firmware's consumer by mouse-joystick-firm.
-- [ ] Compare manufactured connectivity at
+- [x] Compare manufactured logical pad assignments at
   `646b8f47d9d09726598ad332c43e1b4714c95272` with current source
-  `3edd5d0913f2028529597f80ccd57609dc61e66b`. No local v1.0 tag; native file
-  blobs differ, so current-source agreement is not an equivalence assessment.
+  `6f1bd481ecc9188e03654acd9d5a0fd6e909e80c` (native blobs unchanged from
+  `3edd5d0913f2028529597f80ccd57609dc61e66b`). Frozen ZIP still matches its
+  fabrication Git blob. MCP Gerbers/XML versus frozen X2 attributes:
+  1,204 numbered pads, one unnumbered/unassigned pad, 334 identical pad
+  groups, seven renamed nets. The report and hashes are retained in
+  `kicad/observation/fabrication-connectivity.json`; no copper geometry,
+  assembly, current library-block or analog equivalence is inferred.
 - [ ] Extend to complete observation taps, domain/off-state and mux facts.
 
 No native KiCad file, fabrication package or bench log changed. Firmware's
 28 constants/spares compile against this export; deliberate mismatch tests
 are retained in the owning tools. See kicad-libs/PLANS readiness checkpoint.
+Second-batch validation: report replay byte-identical; library readiness
+15 tests pass. No v1.0 tag was invented and no historical package regenerated.
 
 ## Documentation — complete for v1.0 (2026-10-15)
 
