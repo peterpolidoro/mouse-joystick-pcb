@@ -1,0 +1,497 @@
+{
+  "schema": 1,
+  "board_revision": "v1.0",
+  "source_revision": "bfd1399ff948e6fe9ef62bb6ead1295f3e2fb0ef",
+  "profile_id": "digital-50",
+  "profile_revision": "0.1",
+  "connector": "J1301",
+  "connector_value": "FH12-50S-0.5SVA(54)",
+  "ground_net": "/GND",
+  "buffer_supply_net": "/+3.3V_MCU",
+  "buffers": [
+    "U1301",
+    "U1302",
+    "U1303",
+    "U1304"
+  ],
+  "buffer_enable_pull_ohms": 10000,
+  "output_series_ohms": 100,
+  "mcu_reference": "U601",
+  "bus_switches": [
+    "U603",
+    "U604",
+    "U605",
+    "U606"
+  ],
+  "bus_enable_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/~{BUS_SW_EN}",
+  "subsystem": "instrument_port",
+  "boundary_role": "instrument_port_digital_50_dut_ffc_boundary_vertical",
+  "rails": [
+    "/GND",
+    "/+3.3V_MCU",
+    "/+3.3V_SW",
+    "/+5V_SW",
+    "/brake_torque_sensor/+12V"
+  ],
+  "domains": {
+    "mcu": "Always-on MCU-side logic; +3.3V_MCU. High-side control/fault paths also reach a separately powered protection IC.",
+    "external-control": "Host UART into the MCU domain; the external host may drive independently.",
+    "ground": "Hard-grounded buffer input; this is not a dedicated connector ground contact.",
+    "switched-logic": "Peripheral-side +3.3V_SW logic, including filtered rails; supplies are checked separately.",
+    "switched-5v-pgood": "Open-drain power-good with pull-up to +5V_SW; input nominal high is 5 V, buffer output is 3.3 V.",
+    "switched-12v-pgood": "Power-good with 10k/4.7k divider from +12V to ground; input high is a divided rail, not MCU logic."
+  },
+  "bias_scenarios": {
+    "mcu-on-switched-off": {
+      "assumptions": "All attached outputs are high impedance; rails have settled. This is a passive bias inventory, not a reset or power-off qualification.",
+      "rail_levels": {
+        "/GND": "low",
+        "/+3.3V_MCU": "high",
+        "/+3.3V_SW": "low",
+        "/+5V_SW": "low",
+        "/brake_torque_sensor/+12V": "low"
+      }
+    },
+    "all-rails-on": {
+      "assumptions": "All attached outputs are high impedance; rails have settled. This is a passive bias inventory, not a reset or power-off qualification.",
+      "rail_levels": {
+        "/GND": "low",
+        "/+3.3V_MCU": "high",
+        "/+3.3V_SW": "high",
+        "/+5V_SW": "high",
+        "/brake_torque_sensor/+12V": "high"
+      }
+    },
+    "all-rails-off": {
+      "assumptions": "All attached outputs are high impedance and every declared rail is at ground. Buffers are unpowered: the calculated input bias does not imply a valid connector reading.",
+      "rail_levels": {
+        "/GND": "low",
+        "/+3.3V_MCU": "low",
+        "/+3.3V_SW": "low",
+        "/+5V_SW": "low",
+        "/brake_torque_sensor/+12V": "low"
+      }
+    }
+  },
+  "required_bias_paths": [
+    {
+      "source_net": "/+3.3V_SW",
+      "rail": "/GND",
+      "resistors": [
+        "R408",
+        "R409"
+      ],
+      "ohms": 2000
+    },
+    {
+      "source_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/~{BUS_SW_EN}",
+      "rail": "/+3.3V_MCU",
+      "resistors": [
+        "R607"
+      ],
+      "ohms": 7870
+    },
+    {
+      "source_net": "/PG_5V",
+      "rail": "/+5V_SW",
+      "resistors": [
+        "R1701"
+      ],
+      "ohms": 10000
+    },
+    {
+      "source_net": "/PG_12V",
+      "rail": "/brake_torque_sensor/+12V",
+      "resistors": [
+        "R1902"
+      ],
+      "ohms": 10000
+    },
+    {
+      "source_net": "/PG_12V",
+      "rail": "/GND",
+      "resistors": [
+        "R1903"
+      ],
+      "ohms": 4700
+    }
+  ],
+  "supply_checks": [
+    {
+      "reference": "U601",
+      "pin": "1",
+      "net": "/+3.3V_MCU"
+    },
+    {
+      "reference": "U1201",
+      "pin": "10",
+      "net": "/+3.3V_SW"
+    },
+    {
+      "reference": "U1501",
+      "pin": "5",
+      "net": "/+3.3V_SW"
+    },
+    {
+      "reference": "U1601",
+      "pin": "4",
+      "net": "/+3.3V_SW"
+    },
+    {
+      "reference": "U2002",
+      "pin": "16",
+      "net": "/+3.3V_SW"
+    },
+    {
+      "reference": "U1803",
+      "pin": "5",
+      "net": "/brake_torque_sensor/brake_current_sink_0_49ma_dac80501/+3.3V_FILT"
+    },
+    {
+      "reference": "U1701",
+      "pin": "4",
+      "net": "/+5V_SW"
+    },
+    {
+      "reference": "U1901",
+      "pin": "4",
+      "net": "/brake_torque_sensor/+12V"
+    }
+  ],
+  "channels": {
+    "DIG0": {
+      "source_net": "/FW_TRIG0",
+      "tap_ohms": null,
+      "gpio": 25,
+      "through_bus_switch": false,
+      "active_low": false,
+      "direction": "mcu-output",
+      "domain": "mcu",
+      "notes": "Boot beacon clock or firmware marker depending on phase/build; no series input tap."
+    },
+    "DIG1": {
+      "source_net": "/FW_TRIG1",
+      "tap_ohms": null,
+      "gpio": 21,
+      "through_bus_switch": false,
+      "active_low": false,
+      "direction": "mcu-output",
+      "domain": "mcu",
+      "notes": "Boot beacon data or runtime QS TX depending on phase/build; no independent runtime trigger while tracing."
+    },
+    "DIG2": {
+      "source_net": "/PYC_UART_TX",
+      "tap_ohms": 100,
+      "gpio": 0,
+      "through_bus_switch": false,
+      "active_low": false,
+      "direction": "mcu-output",
+      "domain": "mcu",
+      "notes": "Tap is on the MCU side of the pyControl boundary series resistor."
+    },
+    "DIG3": {
+      "source_net": "/PYC_UART_RX",
+      "tap_ohms": 100,
+      "gpio": 1,
+      "through_bus_switch": false,
+      "active_low": false,
+      "direction": "mcu-input",
+      "domain": "external-control",
+      "notes": "External host can override the passive pull-up. This is board RX despite the DIO-A connector name."
+    },
+    "DIG4": {
+      "source_net": "/GND",
+      "tap_ohms": null,
+      "gpio": null,
+      "through_bus_switch": false,
+      "active_low": false,
+      "direction": "constant-low",
+      "domain": "ground",
+      "notes": ""
+    },
+    "DIG5": {
+      "source_net": "/GND",
+      "tap_ohms": null,
+      "gpio": null,
+      "through_bus_switch": false,
+      "active_low": false,
+      "direction": "constant-low",
+      "domain": "ground",
+      "notes": ""
+    },
+    "DIG6": {
+      "source_net": "/GND",
+      "tap_ohms": null,
+      "gpio": null,
+      "through_bus_switch": false,
+      "active_low": false,
+      "direction": "constant-low",
+      "domain": "ground",
+      "notes": ""
+    },
+    "DIG7": {
+      "source_net": "/GND",
+      "tap_ohms": null,
+      "gpio": null,
+      "through_bus_switch": false,
+      "active_low": false,
+      "direction": "constant-low",
+      "domain": "ground",
+      "notes": ""
+    },
+    "DIG8": {
+      "source_net": "/TMC_SPI_SCK",
+      "tap_ohms": 100,
+      "gpio": 6,
+      "through_bus_switch": true,
+      "active_low": false,
+      "direction": "mcu-output",
+      "domain": "switched-logic",
+      "notes": ""
+    },
+    "DIG9": {
+      "source_net": "/~{TMC_CS}",
+      "tap_ohms": 100,
+      "gpio": 2,
+      "through_bus_switch": true,
+      "active_low": true,
+      "direction": "mcu-output",
+      "domain": "switched-logic",
+      "notes": ""
+    },
+    "DIG10": {
+      "source_net": "/TMC_SPI_COPI",
+      "tap_ohms": 100,
+      "gpio": 7,
+      "through_bus_switch": true,
+      "active_low": false,
+      "direction": "mcu-output",
+      "domain": "switched-logic",
+      "notes": ""
+    },
+    "DIG11": {
+      "source_net": "/TMC_SPI_CIPO",
+      "tap_ohms": 100,
+      "gpio": 4,
+      "through_bus_switch": true,
+      "active_low": false,
+      "direction": "mcu-input",
+      "domain": "switched-logic",
+      "notes": ""
+    },
+    "DIG12": {
+      "source_net": "/TMC_DIAG0",
+      "tap_ohms": 1000,
+      "gpio": 5,
+      "through_bus_switch": true,
+      "active_low": false,
+      "direction": "mcu-input",
+      "domain": "switched-logic",
+      "notes": ""
+    },
+    "DIG13": {
+      "source_net": "/TMC_DIAG1",
+      "tap_ohms": 1000,
+      "gpio": 8,
+      "through_bus_switch": true,
+      "active_low": false,
+      "direction": "mcu-input",
+      "domain": "switched-logic",
+      "notes": ""
+    },
+    "DIG14": {
+      "source_net": "/~{TMC_DRV_EN}",
+      "tap_ohms": 1000,
+      "gpio": 3,
+      "through_bus_switch": true,
+      "active_low": true,
+      "direction": "mcu-output",
+      "domain": "switched-logic",
+      "notes": ""
+    },
+    "DIG15": {
+      "source_net": "/motor_encoder_switch/LIMIT_SW",
+      "tap_ohms": 1000,
+      "gpio": null,
+      "through_bus_switch": false,
+      "active_low": false,
+      "direction": "peripheral-output",
+      "domain": "switched-logic",
+      "notes": "Conditioned limit switch goes to the TMC, not an MCU GPIO."
+    },
+    "DIG16": {
+      "source_net": "/TQ_SPI_SCK",
+      "tap_ohms": 100,
+      "gpio": 10,
+      "through_bus_switch": true,
+      "active_low": false,
+      "direction": "mcu-output",
+      "domain": "switched-logic",
+      "notes": ""
+    },
+    "DIG17": {
+      "source_net": "/TQ_CONVST_CS",
+      "tap_ohms": 100,
+      "gpio": 15,
+      "through_bus_switch": true,
+      "active_low": false,
+      "direction": "mcu-output",
+      "domain": "switched-logic",
+      "notes": ""
+    },
+    "DIG18": {
+      "source_net": "/TQ_SPI_COPI",
+      "tap_ohms": 100,
+      "gpio": 11,
+      "through_bus_switch": true,
+      "active_low": false,
+      "direction": "mcu-output",
+      "domain": "switched-logic",
+      "notes": ""
+    },
+    "DIG19": {
+      "source_net": "/TQ_SPI_CIPO",
+      "tap_ohms": 100,
+      "gpio": 12,
+      "through_bus_switch": true,
+      "active_low": false,
+      "direction": "mcu-input",
+      "domain": "switched-logic",
+      "notes": ""
+    },
+    "DIG20": {
+      "source_net": "/TQ_CAL_EN",
+      "tap_ohms": 1000,
+      "gpio": 18,
+      "through_bus_switch": true,
+      "active_low": false,
+      "direction": "mcu-output",
+      "domain": "switched-logic",
+      "notes": ""
+    },
+    "DIG21": {
+      "source_net": "/~{BRAKE_FAULT}",
+      "tap_ohms": 1000,
+      "gpio": 13,
+      "through_bus_switch": true,
+      "active_low": true,
+      "direction": "mcu-input",
+      "domain": "switched-logic",
+      "notes": "A low passive bias is not proof of a brake fault while the switched domain is off."
+    },
+    "DIG22": {
+      "source_net": "/DAC_SDA",
+      "tap_ohms": 100,
+      "gpio": 16,
+      "through_bus_switch": true,
+      "active_low": false,
+      "direction": "bidirectional",
+      "domain": "switched-logic",
+      "notes": "Recipe/profile alias DAQ_SDA maps to functional DAC_SDA through the board source."
+    },
+    "DIG23": {
+      "source_net": "/DAC_SCL",
+      "tap_ohms": 100,
+      "gpio": 17,
+      "through_bus_switch": true,
+      "active_low": false,
+      "direction": "bidirectional",
+      "domain": "switched-logic",
+      "notes": "Recipe/profile alias DAQ_SCL maps to functional DAC_SCL through the board source."
+    },
+    "DIG24": {
+      "source_net": "/HV_EN",
+      "tap_ohms": 1000,
+      "gpio": 19,
+      "through_bus_switch": false,
+      "active_low": false,
+      "direction": "mcu-output",
+      "domain": "mcu",
+      "notes": "MCU-side command tap; does not directly measure the switched HV rail."
+    },
+    "DIG25": {
+      "source_net": "/HV_DIAG_EN",
+      "tap_ohms": 1000,
+      "gpio": 14,
+      "through_bus_switch": false,
+      "active_low": false,
+      "direction": "mcu-output",
+      "domain": "mcu",
+      "notes": "No external DC pull reaches this tap; internal DIAG_EN behavior is not inferred by the resistor model."
+    },
+    "DIG26": {
+      "source_net": "/~{HV_FAULT}",
+      "tap_ohms": 1000,
+      "gpio": 23,
+      "through_bus_switch": false,
+      "active_low": true,
+      "direction": "mcu-input",
+      "domain": "mcu",
+      "notes": "Biased toward +3.3V_MCU through protection-series and pull-up resistors; not a guaranteed fault verdict during supply transitions."
+    },
+    "DIG27": {
+      "source_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/~{BUS_SW_EN}",
+      "tap_ohms": 1000,
+      "gpio": 9,
+      "through_bus_switch": false,
+      "active_low": true,
+      "direction": "mcu-output",
+      "domain": "mcu",
+      "notes": "R607 7.87k pulls the switch enable high; outputs from firmware or a debugger can override it."
+    },
+    "DIG28": {
+      "source_net": "/motor_encoder_switch/ENCA",
+      "tap_ohms": 100,
+      "gpio": null,
+      "through_bus_switch": false,
+      "active_low": false,
+      "direction": "peripheral-output",
+      "domain": "switched-logic",
+      "notes": "Conditioned encoder A goes to the TMC, not an MCU GPIO."
+    },
+    "DIG29": {
+      "source_net": "/motor_encoder_switch/ENCB",
+      "tap_ohms": 100,
+      "gpio": null,
+      "through_bus_switch": false,
+      "active_low": false,
+      "direction": "peripheral-output",
+      "domain": "switched-logic",
+      "notes": "Conditioned encoder B goes to the TMC, not an MCU GPIO."
+    },
+    "DIG30": {
+      "source_net": "/PG_5V",
+      "tap_ohms": null,
+      "gpio": null,
+      "through_bus_switch": false,
+      "active_low": false,
+      "direction": "peripheral-output",
+      "domain": "switched-5v-pgood",
+      "notes": "Direct buffer input, no input tap resistor. Pull-up source is +5V_SW."
+    },
+    "DIG31": {
+      "source_net": "/PG_12V",
+      "tap_ohms": null,
+      "gpio": null,
+      "through_bus_switch": false,
+      "active_low": false,
+      "direction": "peripheral-output",
+      "domain": "switched-12v-pgood",
+      "notes": "Direct buffer input, no input tap resistor. R1902/R1903 form the 12 V divider; DIG31 is connected, not grounded."
+    }
+  },
+  "component_model_sources": {
+    "SN74LV541ARKSR": {
+      "url": "https://www.ti.com/lit/ds/symlink/sn74lv541a.pdf",
+      "document": "SCLS410N, August 2023",
+      "local_facts": "kicad-libs/db/facts/OW-MISC-SN74LV541ARKSR.yaml",
+      "scope": "Pin pairs, enables, power supply and partial power down. Board leakage/transition behavior remains unqualified."
+    },
+    "SN74CB3Q3245RGYR": {
+      "url": "https://www.ti.com/lit/ds/symlink/sn74cb3q3245.pdf",
+      "document": "SCDS124C, August 2026",
+      "local_facts": "kicad-libs/db/facts/OW-MISC-SN74CB3Q3245RGYR.yaml",
+      "scope": "A/B pairing and active-low enable. Model traverses only explicitly declared switches."
+    }
+  }
+}

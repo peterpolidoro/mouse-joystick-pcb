@@ -1,0 +1,2840 @@
+{
+  "schema": 1,
+  "board": "mouse-joystick-pcb",
+  "board_revision": "v1.0",
+  "source_revision": "bfd1399ff948e6fe9ef62bb6ead1295f3e2fb0ef",
+  "profile": {
+    "id": "digital-50",
+    "revision": "0.1"
+  },
+  "connector": "J1301",
+  "ground_net": "/GND",
+  "ground_contacts": [
+    1,
+    4,
+    7,
+    10,
+    13,
+    16,
+    19,
+    22,
+    25,
+    26,
+    29,
+    32,
+    35,
+    38,
+    41,
+    44,
+    47,
+    50
+  ],
+  "buffers": {
+    "U1301": {
+      "supply_net": "/+3.3V_MCU",
+      "enable_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/~{OE1}",
+      "enable_pull": "R1301",
+      "enabled_with_valid_supply": true
+    },
+    "U1302": {
+      "supply_net": "/+3.3V_MCU",
+      "enable_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/~{OE2}",
+      "enable_pull": "R1302",
+      "enabled_with_valid_supply": true
+    },
+    "U1303": {
+      "supply_net": "/+3.3V_MCU",
+      "enable_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/~{OE3}",
+      "enable_pull": "R1303",
+      "enabled_with_valid_supply": true
+    },
+    "U1304": {
+      "supply_net": "/+3.3V_MCU",
+      "enable_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/~{OE4}",
+      "enable_pull": "R1304",
+      "enabled_with_valid_supply": true
+    }
+  },
+  "mcu": {
+    "reference": "U601",
+    "part": "RP2040"
+  },
+  "supply_checks": [
+    {
+      "reference": "U601",
+      "pin": "1",
+      "net": "/+3.3V_MCU"
+    },
+    {
+      "reference": "U1201",
+      "pin": "10",
+      "net": "/+3.3V_SW"
+    },
+    {
+      "reference": "U1501",
+      "pin": "5",
+      "net": "/+3.3V_SW"
+    },
+    {
+      "reference": "U1601",
+      "pin": "4",
+      "net": "/+3.3V_SW"
+    },
+    {
+      "reference": "U2002",
+      "pin": "16",
+      "net": "/+3.3V_SW"
+    },
+    {
+      "reference": "U1803",
+      "pin": "5",
+      "net": "/brake_torque_sensor/brake_current_sink_0_49ma_dac80501/+3.3V_FILT"
+    },
+    {
+      "reference": "U1701",
+      "pin": "4",
+      "net": "/+5V_SW"
+    },
+    {
+      "reference": "U1901",
+      "pin": "4",
+      "net": "/brake_torque_sensor/+12V"
+    }
+  ],
+  "domains": {
+    "mcu": "Always-on MCU-side logic; +3.3V_MCU. High-side control/fault paths also reach a separately powered protection IC.",
+    "external-control": "Host UART into the MCU domain; the external host may drive independently.",
+    "ground": "Hard-grounded buffer input; this is not a dedicated connector ground contact.",
+    "switched-logic": "Peripheral-side +3.3V_SW logic, including filtered rails; supplies are checked separately.",
+    "switched-5v-pgood": "Open-drain power-good with pull-up to +5V_SW; input nominal high is 5 V, buffer output is 3.3 V.",
+    "switched-12v-pgood": "Power-good with 10k/4.7k divider from +12V to ground; input high is a divided rail, not MCU logic."
+  },
+  "bias_scenarios": {
+    "mcu-on-switched-off": {
+      "assumptions": "All attached outputs are high impedance; rails have settled. This is a passive bias inventory, not a reset or power-off qualification.",
+      "rail_levels": {
+        "/GND": "low",
+        "/+3.3V_MCU": "high",
+        "/+3.3V_SW": "low",
+        "/+5V_SW": "low",
+        "/brake_torque_sensor/+12V": "low"
+      }
+    },
+    "all-rails-on": {
+      "assumptions": "All attached outputs are high impedance; rails have settled. This is a passive bias inventory, not a reset or power-off qualification.",
+      "rail_levels": {
+        "/GND": "low",
+        "/+3.3V_MCU": "high",
+        "/+3.3V_SW": "high",
+        "/+5V_SW": "high",
+        "/brake_torque_sensor/+12V": "high"
+      }
+    },
+    "all-rails-off": {
+      "assumptions": "All attached outputs are high impedance and every declared rail is at ground. Buffers are unpowered: the calculated input bias does not imply a valid connector reading.",
+      "rail_levels": {
+        "/GND": "low",
+        "/+3.3V_MCU": "low",
+        "/+3.3V_SW": "low",
+        "/+5V_SW": "low",
+        "/brake_torque_sensor/+12V": "low"
+      }
+    }
+  },
+  "required_bias_paths": [
+    {
+      "source_net": "/+3.3V_SW",
+      "rail": "/GND",
+      "resistors": [
+        "R408",
+        "R409"
+      ],
+      "ohms": 2000
+    },
+    {
+      "source_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/~{BUS_SW_EN}",
+      "rail": "/+3.3V_MCU",
+      "resistors": [
+        "R607"
+      ],
+      "ohms": 7870
+    },
+    {
+      "source_net": "/PG_5V",
+      "rail": "/+5V_SW",
+      "resistors": [
+        "R1701"
+      ],
+      "ohms": 10000
+    },
+    {
+      "source_net": "/PG_12V",
+      "rail": "/brake_torque_sensor/+12V",
+      "resistors": [
+        "R1902"
+      ],
+      "ohms": 10000
+    },
+    {
+      "source_net": "/PG_12V",
+      "rail": "/GND",
+      "resistors": [
+        "R1903"
+      ],
+      "ohms": 4700
+    }
+  ],
+  "channels": {
+    "DIG0": {
+      "contact": 2,
+      "signal": "FW_TRIG0",
+      "source_net": "/FW_TRIG0",
+      "domain": "mcu",
+      "declared_direction": "mcu-output",
+      "active_low": false,
+      "mcu_connection": {
+        "gpio": 25,
+        "pad": "37",
+        "through_switch": null
+      },
+      "tap": null,
+      "buffer": {
+        "reference": "U1301",
+        "input_pin": "9",
+        "input_net": "/FW_TRIG0",
+        "output_pin": "11",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG0_BUF"
+      },
+      "output_series": {
+        "reference": "R1305",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG0_ISO",
+      "passive_paths": [
+        {
+          "rail": "/GND",
+          "resistors": [
+            "R404"
+          ],
+          "ohms": 10000.0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "R404",
+          "pin": "1",
+          "part": "10k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U1301",
+          "pin": "9",
+          "part": "SN74LV541ARKSR",
+          "function": "A8_9",
+          "pin_type": "input"
+        },
+        {
+          "reference": "U601",
+          "pin": "37",
+          "part": "RP2040",
+          "function": "GPIO25_37",
+          "pin_type": "bidirectional"
+        },
+        {
+          "reference": "U606",
+          "pin": "17",
+          "part": "SN74CB3Q3245RGYR",
+          "function": "B2_17",
+          "pin_type": "passive"
+        }
+      ],
+      "notes": "Boot beacon clock or firmware marker depending on phase/build; no series input tap."
+    },
+    "DIG1": {
+      "contact": 3,
+      "signal": "FW_TRIG1",
+      "source_net": "/FW_TRIG1",
+      "domain": "mcu",
+      "declared_direction": "mcu-output",
+      "active_low": false,
+      "mcu_connection": {
+        "gpio": 21,
+        "pad": "32",
+        "through_switch": null
+      },
+      "tap": null,
+      "buffer": {
+        "reference": "U1301",
+        "input_pin": "8",
+        "input_net": "/FW_TRIG1",
+        "output_pin": "12",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG1_BUF"
+      },
+      "output_series": {
+        "reference": "R1306",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG1_ISO",
+      "passive_paths": [
+        {
+          "rail": "/GND",
+          "resistors": [
+            "R405"
+          ],
+          "ohms": 10000.0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "R405",
+          "pin": "1",
+          "part": "10k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U1301",
+          "pin": "8",
+          "part": "SN74LV541ARKSR",
+          "function": "A7_8",
+          "pin_type": "input"
+        },
+        {
+          "reference": "U601",
+          "pin": "32",
+          "part": "RP2040",
+          "function": "GPIO21_32",
+          "pin_type": "bidirectional"
+        },
+        {
+          "reference": "U605",
+          "pin": "13",
+          "part": "SN74CB3Q3245RGYR",
+          "function": "B6_13",
+          "pin_type": "passive"
+        }
+      ],
+      "notes": "Boot beacon data or runtime QS TX depending on phase/build; no independent runtime trigger while tracing."
+    },
+    "DIG2": {
+      "contact": 5,
+      "signal": "PYC_UART_TX",
+      "source_net": "/PYC_UART_TX",
+      "domain": "mcu",
+      "declared_direction": "mcu-output",
+      "active_low": false,
+      "mcu_connection": {
+        "gpio": 0,
+        "pad": "2",
+        "through_switch": null
+      },
+      "tap": {
+        "reference": "R305",
+        "ohms": 100.0
+      },
+      "buffer": {
+        "reference": "U1301",
+        "input_pin": "7",
+        "input_net": "/PYC_UART_TX_INST",
+        "output_pin": "13",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG2_BUF"
+      },
+      "output_series": {
+        "reference": "R1307",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG2_ISO",
+      "passive_paths": [],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "undetermined",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "undetermined",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "undetermined",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "R302",
+          "pin": "2",
+          "part": "100",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "R305",
+          "pin": "1",
+          "part": "100",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U601",
+          "pin": "2",
+          "part": "RP2040",
+          "function": "GPIO0_2",
+          "pin_type": "bidirectional"
+        },
+        {
+          "reference": "U603",
+          "pin": "18",
+          "part": "SN74CB3Q3245RGYR",
+          "function": "B1_18",
+          "pin_type": "passive"
+        }
+      ],
+      "notes": "Tap is on the MCU side of the pyControl boundary series resistor."
+    },
+    "DIG3": {
+      "contact": 6,
+      "signal": "PYC_UART_RX",
+      "source_net": "/PYC_UART_RX",
+      "domain": "external-control",
+      "declared_direction": "mcu-input",
+      "active_low": false,
+      "mcu_connection": {
+        "gpio": 1,
+        "pad": "3",
+        "through_switch": null
+      },
+      "tap": {
+        "reference": "R304",
+        "ohms": 100.0
+      },
+      "buffer": {
+        "reference": "U1301",
+        "input_pin": "6",
+        "input_net": "/PYC_UART_RX_INST",
+        "output_pin": "14",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG3_BUF"
+      },
+      "output_series": {
+        "reference": "R1308",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG3_ISO",
+      "passive_paths": [
+        {
+          "rail": "/+3.3V_MCU",
+          "resistors": [
+            "R401"
+          ],
+          "ohms": 10000.0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "high",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "high",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "R301",
+          "pin": "2",
+          "part": "100",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "R304",
+          "pin": "1",
+          "part": "100",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "R401",
+          "pin": "2",
+          "part": "10k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U601",
+          "pin": "3",
+          "part": "RP2040",
+          "function": "GPIO1_3",
+          "pin_type": "bidirectional"
+        },
+        {
+          "reference": "U603",
+          "pin": "17",
+          "part": "SN74CB3Q3245RGYR",
+          "function": "B2_17",
+          "pin_type": "passive"
+        }
+      ],
+      "notes": "External host can override the passive pull-up. This is board RX despite the DIO-A connector name."
+    },
+    "DIG4": {
+      "contact": 8,
+      "signal": "GND",
+      "source_net": "/GND",
+      "domain": "ground",
+      "declared_direction": "constant-low",
+      "active_low": false,
+      "mcu_connection": null,
+      "tap": null,
+      "buffer": {
+        "reference": "U1301",
+        "input_pin": "5",
+        "input_net": "/GND",
+        "output_pin": "15",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG4_BUF"
+      },
+      "output_series": {
+        "reference": "R1309",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG4_ISO",
+      "passive_paths": [
+        {
+          "rail": "/GND",
+          "resistors": [],
+          "ohms": 0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "U1301",
+          "pin": "5",
+          "part": "SN74LV541ARKSR",
+          "function": "A4_5",
+          "pin_type": "input"
+        }
+      ],
+      "notes": ""
+    },
+    "DIG5": {
+      "contact": 9,
+      "signal": "GND",
+      "source_net": "/GND",
+      "domain": "ground",
+      "declared_direction": "constant-low",
+      "active_low": false,
+      "mcu_connection": null,
+      "tap": null,
+      "buffer": {
+        "reference": "U1301",
+        "input_pin": "4",
+        "input_net": "/GND",
+        "output_pin": "16",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG5_BUF"
+      },
+      "output_series": {
+        "reference": "R1310",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG5_ISO",
+      "passive_paths": [
+        {
+          "rail": "/GND",
+          "resistors": [],
+          "ohms": 0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "U1301",
+          "pin": "4",
+          "part": "SN74LV541ARKSR",
+          "function": "A3_4",
+          "pin_type": "input"
+        }
+      ],
+      "notes": ""
+    },
+    "DIG6": {
+      "contact": 11,
+      "signal": "GND",
+      "source_net": "/GND",
+      "domain": "ground",
+      "declared_direction": "constant-low",
+      "active_low": false,
+      "mcu_connection": null,
+      "tap": null,
+      "buffer": {
+        "reference": "U1301",
+        "input_pin": "3",
+        "input_net": "/GND",
+        "output_pin": "17",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG6_BUF"
+      },
+      "output_series": {
+        "reference": "R1311",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG6_ISO",
+      "passive_paths": [
+        {
+          "rail": "/GND",
+          "resistors": [],
+          "ohms": 0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "U1301",
+          "pin": "3",
+          "part": "SN74LV541ARKSR",
+          "function": "A2_3",
+          "pin_type": "input"
+        }
+      ],
+      "notes": ""
+    },
+    "DIG7": {
+      "contact": 12,
+      "signal": "GND",
+      "source_net": "/GND",
+      "domain": "ground",
+      "declared_direction": "constant-low",
+      "active_low": false,
+      "mcu_connection": null,
+      "tap": null,
+      "buffer": {
+        "reference": "U1301",
+        "input_pin": "2",
+        "input_net": "/GND",
+        "output_pin": "18",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG7_BUF"
+      },
+      "output_series": {
+        "reference": "R1312",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG7_ISO",
+      "passive_paths": [
+        {
+          "rail": "/GND",
+          "resistors": [],
+          "ohms": 0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "U1301",
+          "pin": "2",
+          "part": "SN74LV541ARKSR",
+          "function": "A1_2",
+          "pin_type": "input"
+        }
+      ],
+      "notes": ""
+    },
+    "DIG8": {
+      "contact": 14,
+      "signal": "TMC_SPI_SCK",
+      "source_net": "/TMC_SPI_SCK",
+      "domain": "switched-logic",
+      "declared_direction": "mcu-output",
+      "active_low": false,
+      "mcu_connection": {
+        "gpio": 6,
+        "pad": "8",
+        "through_switch": {
+          "reference": "U603",
+          "channel": 7,
+          "enable_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/~{BUS_SW_EN}",
+          "connected_when": 0
+        }
+      },
+      "tap": {
+        "reference": "R1206",
+        "ohms": 100.0
+      },
+      "buffer": {
+        "reference": "U1302",
+        "input_pin": "9",
+        "input_net": "/TMC_SPI_SCK_INST",
+        "output_pin": "11",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG8_BUF"
+      },
+      "output_series": {
+        "reference": "R1313",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG8_ISO",
+      "passive_paths": [
+        {
+          "rail": "/GND",
+          "resistors": [
+            "R1104"
+          ],
+          "ohms": 10000.0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "R1104",
+          "pin": "1",
+          "part": "10k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "R1206",
+          "pin": "1",
+          "part": "100",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U1201",
+          "pin": "4",
+          "part": "TMC5130A-TA-T",
+          "function": "SCK_CFG2_4",
+          "pin_type": "input"
+        },
+        {
+          "reference": "U603",
+          "pin": "8",
+          "part": "SN74CB3Q3245RGYR",
+          "function": "A7_8",
+          "pin_type": "passive"
+        }
+      ],
+      "notes": ""
+    },
+    "DIG9": {
+      "contact": 15,
+      "signal": "~{TMC_CS}",
+      "source_net": "/~{TMC_CS}",
+      "domain": "switched-logic",
+      "declared_direction": "mcu-output",
+      "active_low": true,
+      "mcu_connection": {
+        "gpio": 2,
+        "pad": "4",
+        "through_switch": {
+          "reference": "U603",
+          "channel": 3,
+          "enable_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/~{BUS_SW_EN}",
+          "connected_when": 0
+        }
+      },
+      "tap": {
+        "reference": "R1205",
+        "ohms": 100.0
+      },
+      "buffer": {
+        "reference": "U1302",
+        "input_pin": "8",
+        "input_net": "/~{TMC_CS}_INST",
+        "output_pin": "12",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG9_BUF"
+      },
+      "output_series": {
+        "reference": "R1314",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG9_ISO",
+      "passive_paths": [
+        {
+          "rail": "/+3.3V_SW",
+          "resistors": [
+            "R1107"
+          ],
+          "ohms": 10000.0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "high",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "R1107",
+          "pin": "2",
+          "part": "10k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "R1205",
+          "pin": "1",
+          "part": "100",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U1201",
+          "pin": "3",
+          "part": "TMC5130A-TA-T",
+          "function": "~{CS}_CFG3_3",
+          "pin_type": "input"
+        },
+        {
+          "reference": "U603",
+          "pin": "4",
+          "part": "SN74CB3Q3245RGYR",
+          "function": "A3_4",
+          "pin_type": "passive"
+        }
+      ],
+      "notes": ""
+    },
+    "DIG10": {
+      "contact": 17,
+      "signal": "TMC_SPI_COPI",
+      "source_net": "/TMC_SPI_COPI",
+      "domain": "switched-logic",
+      "declared_direction": "mcu-output",
+      "active_low": false,
+      "mcu_connection": {
+        "gpio": 7,
+        "pad": "9",
+        "through_switch": {
+          "reference": "U603",
+          "channel": 8,
+          "enable_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/~{BUS_SW_EN}",
+          "connected_when": 0
+        }
+      },
+      "tap": {
+        "reference": "R1207",
+        "ohms": 100.0
+      },
+      "buffer": {
+        "reference": "U1302",
+        "input_pin": "7",
+        "input_net": "/TMC_SPI_COPI_INST",
+        "output_pin": "13",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG10_BUF"
+      },
+      "output_series": {
+        "reference": "R1315",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG10_ISO",
+      "passive_paths": [
+        {
+          "rail": "/GND",
+          "resistors": [
+            "R1105"
+          ],
+          "ohms": 10000.0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "R1105",
+          "pin": "1",
+          "part": "10k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "R1207",
+          "pin": "1",
+          "part": "100",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U1201",
+          "pin": "5",
+          "part": "TMC5130A-TA-T",
+          "function": "SDI_NAI_CFG1_5",
+          "pin_type": "input"
+        },
+        {
+          "reference": "U603",
+          "pin": "9",
+          "part": "SN74CB3Q3245RGYR",
+          "function": "A8_9",
+          "pin_type": "passive"
+        }
+      ],
+      "notes": ""
+    },
+    "DIG11": {
+      "contact": 18,
+      "signal": "TMC_SPI_CIPO",
+      "source_net": "/TMC_SPI_CIPO",
+      "domain": "switched-logic",
+      "declared_direction": "mcu-input",
+      "active_low": false,
+      "mcu_connection": {
+        "gpio": 4,
+        "pad": "6",
+        "through_switch": {
+          "reference": "U603",
+          "channel": 5,
+          "enable_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/~{BUS_SW_EN}",
+          "connected_when": 0
+        }
+      },
+      "tap": {
+        "reference": "R1208",
+        "ohms": 100.0
+      },
+      "buffer": {
+        "reference": "U1302",
+        "input_pin": "6",
+        "input_net": "/TMC_SPI_CIPO_INST",
+        "output_pin": "14",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG11_BUF"
+      },
+      "output_series": {
+        "reference": "R1316",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG11_ISO",
+      "passive_paths": [
+        {
+          "rail": "/GND",
+          "resistors": [
+            "R1106"
+          ],
+          "ohms": 10000.0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "R1106",
+          "pin": "1",
+          "part": "10k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "R1208",
+          "pin": "1",
+          "part": "100",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U1201",
+          "pin": "7",
+          "part": "TMC5130A-TA-T",
+          "function": "SDO_NAO_CFG0_7",
+          "pin_type": "bidirectional"
+        },
+        {
+          "reference": "U603",
+          "pin": "6",
+          "part": "SN74CB3Q3245RGYR",
+          "function": "A5_6",
+          "pin_type": "passive"
+        }
+      ],
+      "notes": ""
+    },
+    "DIG12": {
+      "contact": 20,
+      "signal": "TMC_DIAG0",
+      "source_net": "/TMC_DIAG0",
+      "domain": "switched-logic",
+      "declared_direction": "mcu-input",
+      "active_low": false,
+      "mcu_connection": {
+        "gpio": 5,
+        "pad": "7",
+        "through_switch": {
+          "reference": "U603",
+          "channel": 6,
+          "enable_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/~{BUS_SW_EN}",
+          "connected_when": 0
+        }
+      },
+      "tap": {
+        "reference": "R1209",
+        "ohms": 1000.0
+      },
+      "buffer": {
+        "reference": "U1302",
+        "input_pin": "5",
+        "input_net": "/TMC_DIAG0_INST",
+        "output_pin": "15",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG12_BUF"
+      },
+      "output_series": {
+        "reference": "R1317",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG12_ISO",
+      "passive_paths": [
+        {
+          "rail": "/+3.3V_SW",
+          "resistors": [
+            "R1101"
+          ],
+          "ohms": 10000.0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "high",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "R1101",
+          "pin": "2",
+          "part": "10k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "R1209",
+          "pin": "1",
+          "part": "1k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U1201",
+          "pin": "26",
+          "part": "TMC5130A-TA-T",
+          "function": "SWN_DIAG0_26",
+          "pin_type": "bidirectional"
+        },
+        {
+          "reference": "U603",
+          "pin": "7",
+          "part": "SN74CB3Q3245RGYR",
+          "function": "A6_7",
+          "pin_type": "passive"
+        }
+      ],
+      "notes": ""
+    },
+    "DIG13": {
+      "contact": 21,
+      "signal": "TMC_DIAG1",
+      "source_net": "/TMC_DIAG1",
+      "domain": "switched-logic",
+      "declared_direction": "mcu-input",
+      "active_low": false,
+      "mcu_connection": {
+        "gpio": 8,
+        "pad": "11",
+        "through_switch": {
+          "reference": "U604",
+          "channel": 1,
+          "enable_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/~{BUS_SW_EN}",
+          "connected_when": 0
+        }
+      },
+      "tap": {
+        "reference": "R1210",
+        "ohms": 1000.0
+      },
+      "buffer": {
+        "reference": "U1302",
+        "input_pin": "4",
+        "input_net": "/TMC_DIAG1_INST",
+        "output_pin": "16",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG13_BUF"
+      },
+      "output_series": {
+        "reference": "R1318",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG13_ISO",
+      "passive_paths": [
+        {
+          "rail": "/+3.3V_SW",
+          "resistors": [
+            "R1102"
+          ],
+          "ohms": 10000.0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "high",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "R1102",
+          "pin": "2",
+          "part": "10k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "R1210",
+          "pin": "1",
+          "part": "1k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U1201",
+          "pin": "27",
+          "part": "TMC5130A-TA-T",
+          "function": "SWP_DIAG1_27",
+          "pin_type": "bidirectional"
+        },
+        {
+          "reference": "U604",
+          "pin": "2",
+          "part": "SN74CB3Q3245RGYR",
+          "function": "A1_2",
+          "pin_type": "passive"
+        }
+      ],
+      "notes": ""
+    },
+    "DIG14": {
+      "contact": 23,
+      "signal": "~{TMC_DRV_EN}",
+      "source_net": "/~{TMC_DRV_EN}",
+      "domain": "switched-logic",
+      "declared_direction": "mcu-output",
+      "active_low": true,
+      "mcu_connection": {
+        "gpio": 3,
+        "pad": "5",
+        "through_switch": {
+          "reference": "U603",
+          "channel": 4,
+          "enable_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/~{BUS_SW_EN}",
+          "connected_when": 0
+        }
+      },
+      "tap": {
+        "reference": "R1211",
+        "ohms": 1000.0
+      },
+      "buffer": {
+        "reference": "U1302",
+        "input_pin": "3",
+        "input_net": "/~{TMC_DRV_EN}_INST",
+        "output_pin": "17",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG14_BUF"
+      },
+      "output_series": {
+        "reference": "R1319",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG14_ISO",
+      "passive_paths": [
+        {
+          "rail": "/+3.3V_SW",
+          "resistors": [
+            "R1103"
+          ],
+          "ohms": 10000.0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "high",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "R1103",
+          "pin": "2",
+          "part": "10k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "R1211",
+          "pin": "1",
+          "part": "1k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U1201",
+          "pin": "29",
+          "part": "TMC5130A-TA-T",
+          "function": "~{DRV_EN}_CFG6_29",
+          "pin_type": "input"
+        },
+        {
+          "reference": "U603",
+          "pin": "5",
+          "part": "SN74CB3Q3245RGYR",
+          "function": "A4_5",
+          "pin_type": "passive"
+        }
+      ],
+      "notes": ""
+    },
+    "DIG15": {
+      "contact": 24,
+      "signal": "LIMIT_SW",
+      "source_net": "/motor_encoder_switch/LIMIT_SW",
+      "domain": "switched-logic",
+      "declared_direction": "peripheral-output",
+      "active_low": false,
+      "mcu_connection": null,
+      "tap": {
+        "reference": "R1602",
+        "ohms": 1000.0
+      },
+      "buffer": {
+        "reference": "U1302",
+        "input_pin": "2",
+        "input_net": "/LIMIT_SW_INST",
+        "output_pin": "18",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG15_BUF"
+      },
+      "output_series": {
+        "reference": "R1320",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG15_ISO",
+      "passive_paths": [
+        {
+          "rail": "/GND",
+          "resistors": [
+            "R1601"
+          ],
+          "ohms": 100000.0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "R1601",
+          "pin": "1",
+          "part": "100k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "R1602",
+          "pin": "1",
+          "part": "1k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U1201",
+          "pin": "8",
+          "part": "TMC5130A-TA-T",
+          "function": "REFL_STEP_8",
+          "pin_type": "input"
+        },
+        {
+          "reference": "U1601",
+          "pin": "3",
+          "part": "MAX6816EUS+T",
+          "function": "OUT_3",
+          "pin_type": "output"
+        }
+      ],
+      "notes": "Conditioned limit switch goes to the TMC, not an MCU GPIO."
+    },
+    "DIG16": {
+      "contact": 27,
+      "signal": "TQ_SPI_SCK",
+      "source_net": "/TQ_SPI_SCK",
+      "domain": "switched-logic",
+      "declared_direction": "mcu-output",
+      "active_low": false,
+      "mcu_connection": {
+        "gpio": 10,
+        "pad": "13",
+        "through_switch": {
+          "reference": "U604",
+          "channel": 3,
+          "enable_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/~{BUS_SW_EN}",
+          "connected_when": 0
+        }
+      },
+      "tap": {
+        "reference": "R2024",
+        "ohms": 100.0
+      },
+      "buffer": {
+        "reference": "U1303",
+        "input_pin": "9",
+        "input_net": "/TQ_SPI_SCK_INST",
+        "output_pin": "11",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG16_BUF"
+      },
+      "output_series": {
+        "reference": "R1321",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG16_ISO",
+      "passive_paths": [
+        {
+          "rail": "/GND",
+          "resistors": [
+            "R902"
+          ],
+          "ohms": 10000.0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "R2024",
+          "pin": "1",
+          "part": "100",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "R902",
+          "pin": "1",
+          "part": "10k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U2002",
+          "pin": "12",
+          "part": "ADS8689IPWR",
+          "function": "SCLK_12",
+          "pin_type": "input"
+        },
+        {
+          "reference": "U604",
+          "pin": "4",
+          "part": "SN74CB3Q3245RGYR",
+          "function": "A3_4",
+          "pin_type": "passive"
+        }
+      ],
+      "notes": ""
+    },
+    "DIG17": {
+      "contact": 28,
+      "signal": "TQ_CONVST_CS",
+      "source_net": "/TQ_CONVST_CS",
+      "domain": "switched-logic",
+      "declared_direction": "mcu-output",
+      "active_low": false,
+      "mcu_connection": {
+        "gpio": 15,
+        "pad": "18",
+        "through_switch": {
+          "reference": "U604",
+          "channel": 8,
+          "enable_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/~{BUS_SW_EN}",
+          "connected_when": 0
+        }
+      },
+      "tap": {
+        "reference": "R2027",
+        "ohms": 100.0
+      },
+      "buffer": {
+        "reference": "U1303",
+        "input_pin": "8",
+        "input_net": "/TQ_CONVST_CS_INST",
+        "output_pin": "12",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG17_BUF"
+      },
+      "output_series": {
+        "reference": "R1322",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG17_ISO",
+      "passive_paths": [
+        {
+          "rail": "/+3.3V_SW",
+          "resistors": [
+            "R904"
+          ],
+          "ohms": 10000.0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "high",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "R2027",
+          "pin": "1",
+          "part": "100",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "R904",
+          "pin": "2",
+          "part": "10k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U2002",
+          "pin": "11",
+          "part": "ADS8689IPWR",
+          "function": "CONVST/~{CS}_11",
+          "pin_type": "input"
+        },
+        {
+          "reference": "U604",
+          "pin": "9",
+          "part": "SN74CB3Q3245RGYR",
+          "function": "A8_9",
+          "pin_type": "passive"
+        }
+      ],
+      "notes": ""
+    },
+    "DIG18": {
+      "contact": 30,
+      "signal": "TQ_SPI_COPI",
+      "source_net": "/TQ_SPI_COPI",
+      "domain": "switched-logic",
+      "declared_direction": "mcu-output",
+      "active_low": false,
+      "mcu_connection": {
+        "gpio": 11,
+        "pad": "14",
+        "through_switch": {
+          "reference": "U604",
+          "channel": 4,
+          "enable_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/~{BUS_SW_EN}",
+          "connected_when": 0
+        }
+      },
+      "tap": {
+        "reference": "R2026",
+        "ohms": 100.0
+      },
+      "buffer": {
+        "reference": "U1303",
+        "input_pin": "7",
+        "input_net": "/TQ_SPI_COPI_INST",
+        "output_pin": "13",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG18_BUF"
+      },
+      "output_series": {
+        "reference": "R1323",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG18_ISO",
+      "passive_paths": [
+        {
+          "rail": "/GND",
+          "resistors": [
+            "R903"
+          ],
+          "ohms": 10000.0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "R2026",
+          "pin": "1",
+          "part": "100",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "R903",
+          "pin": "1",
+          "part": "10k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U2002",
+          "pin": "10",
+          "part": "ADS8689IPWR",
+          "function": "SDI_10",
+          "pin_type": "input"
+        },
+        {
+          "reference": "U604",
+          "pin": "5",
+          "part": "SN74CB3Q3245RGYR",
+          "function": "A4_5",
+          "pin_type": "passive"
+        }
+      ],
+      "notes": ""
+    },
+    "DIG19": {
+      "contact": 31,
+      "signal": "TQ_SPI_CIPO",
+      "source_net": "/TQ_SPI_CIPO",
+      "domain": "switched-logic",
+      "declared_direction": "mcu-input",
+      "active_low": false,
+      "mcu_connection": {
+        "gpio": 12,
+        "pad": "15",
+        "through_switch": {
+          "reference": "U604",
+          "channel": 5,
+          "enable_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/~{BUS_SW_EN}",
+          "connected_when": 0
+        }
+      },
+      "tap": {
+        "reference": "R2025",
+        "ohms": 100.0
+      },
+      "buffer": {
+        "reference": "U1303",
+        "input_pin": "6",
+        "input_net": "/TQ_SPI_CIPO_INST",
+        "output_pin": "14",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG19_BUF"
+      },
+      "output_series": {
+        "reference": "R1324",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG19_ISO",
+      "passive_paths": [
+        {
+          "rail": "/GND",
+          "resistors": [
+            "R2012"
+          ],
+          "ohms": 10000.0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "R2012",
+          "pin": "1",
+          "part": "10k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "R2025",
+          "pin": "1",
+          "part": "100",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U2002",
+          "pin": "13",
+          "part": "ADS8689IPWR",
+          "function": "SDO-0_13",
+          "pin_type": "tri_state"
+        },
+        {
+          "reference": "U604",
+          "pin": "6",
+          "part": "SN74CB3Q3245RGYR",
+          "function": "A5_6",
+          "pin_type": "passive"
+        }
+      ],
+      "notes": ""
+    },
+    "DIG20": {
+      "contact": 33,
+      "signal": "TQ_CAL_EN",
+      "source_net": "/TQ_CAL_EN",
+      "domain": "switched-logic",
+      "declared_direction": "mcu-output",
+      "active_low": false,
+      "mcu_connection": {
+        "gpio": 18,
+        "pad": "29",
+        "through_switch": {
+          "reference": "U605",
+          "channel": 3,
+          "enable_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/~{BUS_SW_EN}",
+          "connected_when": 0
+        }
+      },
+      "tap": {
+        "reference": "R2028",
+        "ohms": 1000.0
+      },
+      "buffer": {
+        "reference": "U1303",
+        "input_pin": "5",
+        "input_net": "/TQ_CAL_EN_INST",
+        "output_pin": "15",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG20_BUF"
+      },
+      "output_series": {
+        "reference": "R1325",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG20_ISO",
+      "passive_paths": [
+        {
+          "rail": "/GND",
+          "resistors": [
+            "R905"
+          ],
+          "ohms": 10000.0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "Q2001",
+          "pin": "1",
+          "part": "2SK1589-T1B-VB",
+          "function": "G_1",
+          "pin_type": "input"
+        },
+        {
+          "reference": "R2028",
+          "pin": "1",
+          "part": "1k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "R905",
+          "pin": "1",
+          "part": "10k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U605",
+          "pin": "4",
+          "part": "SN74CB3Q3245RGYR",
+          "function": "A3_4",
+          "pin_type": "passive"
+        }
+      ],
+      "notes": ""
+    },
+    "DIG21": {
+      "contact": 34,
+      "signal": "~{BRAKE_FAULT}",
+      "source_net": "/~{BRAKE_FAULT}",
+      "domain": "switched-logic",
+      "declared_direction": "mcu-input",
+      "active_low": true,
+      "mcu_connection": {
+        "gpio": 13,
+        "pad": "16",
+        "through_switch": {
+          "reference": "U604",
+          "channel": 6,
+          "enable_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/~{BUS_SW_EN}",
+          "connected_when": 0
+        }
+      },
+      "tap": {
+        "reference": "R1820",
+        "ohms": 1000.0
+      },
+      "buffer": {
+        "reference": "U1303",
+        "input_pin": "4",
+        "input_net": "/~{BRAKE_FAULT}_INST",
+        "output_pin": "16",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG21_BUF"
+      },
+      "output_series": {
+        "reference": "R1326",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG21_ISO",
+      "passive_paths": [
+        {
+          "rail": "/GND",
+          "resistors": [
+            "R901"
+          ],
+          "ohms": 10000.0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "R1820",
+          "pin": "1",
+          "part": "1k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "R901",
+          "pin": "1",
+          "part": "10k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U1803",
+          "pin": "6",
+          "part": "SN74LVC2G17DRYR",
+          "function": "1Y_6",
+          "pin_type": "output"
+        },
+        {
+          "reference": "U604",
+          "pin": "7",
+          "part": "SN74CB3Q3245RGYR",
+          "function": "A6_7",
+          "pin_type": "passive"
+        }
+      ],
+      "notes": "A low passive bias is not proof of a brake fault while the switched domain is off."
+    },
+    "DIG22": {
+      "contact": 36,
+      "signal": "DAQ_SDA",
+      "source_net": "/DAC_SDA",
+      "domain": "switched-logic",
+      "declared_direction": "bidirectional",
+      "active_low": false,
+      "mcu_connection": {
+        "gpio": 16,
+        "pad": "27",
+        "through_switch": {
+          "reference": "U605",
+          "channel": 1,
+          "enable_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/~{BUS_SW_EN}",
+          "connected_when": 0
+        }
+      },
+      "tap": {
+        "reference": "R411",
+        "ohms": 100.0
+      },
+      "buffer": {
+        "reference": "U1303",
+        "input_pin": "3",
+        "input_net": "/DAC_SDA_INST",
+        "output_pin": "17",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG22_BUF"
+      },
+      "output_series": {
+        "reference": "R1327",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG22_ISO",
+      "passive_paths": [
+        {
+          "rail": "/+3.3V_SW",
+          "resistors": [
+            "R407"
+          ],
+          "ohms": 4700.0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "high",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "R407",
+          "pin": "2",
+          "part": "4.7k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "R411",
+          "pin": "1",
+          "part": "100",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U1801",
+          "pin": "8",
+          "part": "DAC80501ZDGSR",
+          "function": "SDIN/SDA_8",
+          "pin_type": "bidirectional"
+        },
+        {
+          "reference": "U605",
+          "pin": "2",
+          "part": "SN74CB3Q3245RGYR",
+          "function": "A1_2",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U801",
+          "pin": "8",
+          "part": "DAC80501ZDGSR",
+          "function": "SDIN/SDA_8",
+          "pin_type": "bidirectional"
+        }
+      ],
+      "notes": "Recipe/profile alias DAQ_SDA maps to functional DAC_SDA through the board source."
+    },
+    "DIG23": {
+      "contact": 37,
+      "signal": "DAQ_SCL",
+      "source_net": "/DAC_SCL",
+      "domain": "switched-logic",
+      "declared_direction": "bidirectional",
+      "active_low": false,
+      "mcu_connection": {
+        "gpio": 17,
+        "pad": "28",
+        "through_switch": {
+          "reference": "U605",
+          "channel": 2,
+          "enable_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/~{BUS_SW_EN}",
+          "connected_when": 0
+        }
+      },
+      "tap": {
+        "reference": "R410",
+        "ohms": 100.0
+      },
+      "buffer": {
+        "reference": "U1303",
+        "input_pin": "2",
+        "input_net": "/DAC_SCL_INST",
+        "output_pin": "18",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG23_BUF"
+      },
+      "output_series": {
+        "reference": "R1328",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG23_ISO",
+      "passive_paths": [
+        {
+          "rail": "/+3.3V_SW",
+          "resistors": [
+            "R406"
+          ],
+          "ohms": 4700.0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "high",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "R406",
+          "pin": "2",
+          "part": "4.7k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "R410",
+          "pin": "1",
+          "part": "100",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U1801",
+          "pin": "6",
+          "part": "DAC80501ZDGSR",
+          "function": "SCLK/SCL_6",
+          "pin_type": "input"
+        },
+        {
+          "reference": "U605",
+          "pin": "3",
+          "part": "SN74CB3Q3245RGYR",
+          "function": "A2_3",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U801",
+          "pin": "6",
+          "part": "DAC80501ZDGSR",
+          "function": "SCLK/SCL_6",
+          "pin_type": "input"
+        }
+      ],
+      "notes": "Recipe/profile alias DAQ_SCL maps to functional DAC_SCL through the board source."
+    },
+    "DIG24": {
+      "contact": 39,
+      "signal": "HV_EN",
+      "source_net": "/HV_EN",
+      "domain": "mcu",
+      "declared_direction": "mcu-output",
+      "active_low": false,
+      "mcu_connection": {
+        "gpio": 19,
+        "pad": "30",
+        "through_switch": null
+      },
+      "tap": {
+        "reference": "R510",
+        "ohms": 1000.0
+      },
+      "buffer": {
+        "reference": "U1304",
+        "input_pin": "9",
+        "input_net": "/HV_EN_INST",
+        "output_pin": "11",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG24_BUF"
+      },
+      "output_series": {
+        "reference": "R1329",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG24_ISO",
+      "passive_paths": [
+        {
+          "rail": "/GND",
+          "resistors": [
+            "R501",
+            "R506"
+          ],
+          "ohms": 11000.0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "R501",
+          "pin": "1",
+          "part": "1k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "R510",
+          "pin": "1",
+          "part": "1k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U601",
+          "pin": "30",
+          "part": "RP2040",
+          "function": "GPIO19_30",
+          "pin_type": "bidirectional"
+        },
+        {
+          "reference": "U605",
+          "pin": "15",
+          "part": "SN74CB3Q3245RGYR",
+          "function": "B4_15",
+          "pin_type": "passive"
+        }
+      ],
+      "notes": "MCU-side command tap; does not directly measure the switched HV rail."
+    },
+    "DIG25": {
+      "contact": 40,
+      "signal": "HV_DIAG_EN",
+      "source_net": "/HV_DIAG_EN",
+      "domain": "mcu",
+      "declared_direction": "mcu-output",
+      "active_low": false,
+      "mcu_connection": {
+        "gpio": 14,
+        "pad": "17",
+        "through_switch": null
+      },
+      "tap": {
+        "reference": "R511",
+        "ohms": 1000.0
+      },
+      "buffer": {
+        "reference": "U1304",
+        "input_pin": "8",
+        "input_net": "/HV_DIAG_EN_INST",
+        "output_pin": "12",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG25_BUF"
+      },
+      "output_series": {
+        "reference": "R1330",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG25_ISO",
+      "passive_paths": [],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "undetermined",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "undetermined",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "undetermined",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "R502",
+          "pin": "2",
+          "part": "10k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "R511",
+          "pin": "1",
+          "part": "1k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U601",
+          "pin": "17",
+          "part": "RP2040",
+          "function": "GPIO14_17",
+          "pin_type": "bidirectional"
+        },
+        {
+          "reference": "U604",
+          "pin": "12",
+          "part": "SN74CB3Q3245RGYR",
+          "function": "B7_12",
+          "pin_type": "passive"
+        }
+      ],
+      "notes": "No external DC pull reaches this tap; internal DIAG_EN behavior is not inferred by the resistor model."
+    },
+    "DIG26": {
+      "contact": 42,
+      "signal": "~{HV_FAULT}",
+      "source_net": "/~{HV_FAULT}",
+      "domain": "mcu",
+      "declared_direction": "mcu-input",
+      "active_low": true,
+      "mcu_connection": {
+        "gpio": 23,
+        "pad": "35",
+        "through_switch": null
+      },
+      "tap": {
+        "reference": "R512",
+        "ohms": 1000.0
+      },
+      "buffer": {
+        "reference": "U1304",
+        "input_pin": "7",
+        "input_net": "/~{HV_FAULT}_INST",
+        "output_pin": "13",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG26_BUF"
+      },
+      "output_series": {
+        "reference": "R1331",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG26_ISO",
+      "passive_paths": [
+        {
+          "rail": "/+3.3V_MCU",
+          "resistors": [
+            "R504",
+            "R507"
+          ],
+          "ohms": 20000.0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "high",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "high",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "R504",
+          "pin": "2",
+          "part": "10k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "R512",
+          "pin": "1",
+          "part": "1k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U601",
+          "pin": "35",
+          "part": "RP2040",
+          "function": "GPIO23_35",
+          "pin_type": "bidirectional"
+        },
+        {
+          "reference": "U605",
+          "pin": "11",
+          "part": "SN74CB3Q3245RGYR",
+          "function": "B8_11",
+          "pin_type": "passive"
+        }
+      ],
+      "notes": "Biased toward +3.3V_MCU through protection-series and pull-up resistors; not a guaranteed fault verdict during supply transitions."
+    },
+    "DIG27": {
+      "contact": 43,
+      "signal": "~{BUS_SW_EN}",
+      "source_net": "/mcu/rp2040_with_gpio_isolation_sn74cb3q3245/~{BUS_SW_EN}",
+      "domain": "mcu",
+      "declared_direction": "mcu-output",
+      "active_low": true,
+      "mcu_connection": {
+        "gpio": 9,
+        "pad": "12",
+        "through_switch": null
+      },
+      "tap": {
+        "reference": "R604",
+        "ohms": 1000.0
+      },
+      "buffer": {
+        "reference": "U1304",
+        "input_pin": "6",
+        "input_net": "/~{BUS_SW_EN}_INST",
+        "output_pin": "14",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG27_BUF"
+      },
+      "output_series": {
+        "reference": "R1332",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG27_ISO",
+      "passive_paths": [
+        {
+          "rail": "/+3.3V_MCU",
+          "resistors": [
+            "R607"
+          ],
+          "ohms": 7870.0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "high",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "high",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "R604",
+          "pin": "1",
+          "part": "1k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "R607",
+          "pin": "2",
+          "part": "7.87k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U601",
+          "pin": "12",
+          "part": "RP2040",
+          "function": "GPIO9_12",
+          "pin_type": "bidirectional"
+        },
+        {
+          "reference": "U603",
+          "pin": "19",
+          "part": "SN74CB3Q3245RGYR",
+          "function": "~{OE}_19",
+          "pin_type": "input"
+        },
+        {
+          "reference": "U604",
+          "pin": "19",
+          "part": "SN74CB3Q3245RGYR",
+          "function": "~{OE}_19",
+          "pin_type": "input"
+        },
+        {
+          "reference": "U605",
+          "pin": "19",
+          "part": "SN74CB3Q3245RGYR",
+          "function": "~{OE}_19",
+          "pin_type": "input"
+        },
+        {
+          "reference": "U606",
+          "pin": "19",
+          "part": "SN74CB3Q3245RGYR",
+          "function": "~{OE}_19",
+          "pin_type": "input"
+        }
+      ],
+      "notes": "R607 7.87k pulls the switch enable high; outputs from firmware or a debugger can override it."
+    },
+    "DIG28": {
+      "contact": 45,
+      "signal": "ENCA",
+      "source_net": "/motor_encoder_switch/ENCA",
+      "domain": "switched-logic",
+      "declared_direction": "peripheral-output",
+      "active_low": false,
+      "mcu_connection": null,
+      "tap": {
+        "reference": "R1507",
+        "ohms": 100.0
+      },
+      "buffer": {
+        "reference": "U1304",
+        "input_pin": "5",
+        "input_net": "/ENCA_INST",
+        "output_pin": "15",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG28_BUF"
+      },
+      "output_series": {
+        "reference": "R1333",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG28_ISO",
+      "passive_paths": [
+        {
+          "rail": "/GND",
+          "resistors": [
+            "R1505"
+          ],
+          "ohms": 100000.0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "R1505",
+          "pin": "1",
+          "part": "100k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "R1507",
+          "pin": "1",
+          "part": "100",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U1201",
+          "pin": "25",
+          "part": "TMC5130A-TA-T",
+          "function": "ENCA_DCIN_CFG5_25",
+          "pin_type": "input"
+        },
+        {
+          "reference": "U1501",
+          "pin": "6",
+          "part": "SN74LVC2G17DRYR",
+          "function": "1Y_6",
+          "pin_type": "output"
+        }
+      ],
+      "notes": "Conditioned encoder A goes to the TMC, not an MCU GPIO."
+    },
+    "DIG29": {
+      "contact": 46,
+      "signal": "ENCB",
+      "source_net": "/motor_encoder_switch/ENCB",
+      "domain": "switched-logic",
+      "declared_direction": "peripheral-output",
+      "active_low": false,
+      "mcu_connection": null,
+      "tap": {
+        "reference": "R1508",
+        "ohms": 100.0
+      },
+      "buffer": {
+        "reference": "U1304",
+        "input_pin": "4",
+        "input_net": "/ENCB_INST",
+        "output_pin": "16",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG29_BUF"
+      },
+      "output_series": {
+        "reference": "R1334",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG29_ISO",
+      "passive_paths": [
+        {
+          "rail": "/GND",
+          "resistors": [
+            "R1506"
+          ],
+          "ohms": 100000.0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "R1506",
+          "pin": "1",
+          "part": "100k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "R1508",
+          "pin": "1",
+          "part": "100",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U1201",
+          "pin": "24",
+          "part": "TMC5130A-TA-T",
+          "function": "ENCB_DCEN_CFG4_24",
+          "pin_type": "input"
+        },
+        {
+          "reference": "U1501",
+          "pin": "4",
+          "part": "SN74LVC2G17DRYR",
+          "function": "2Y_4",
+          "pin_type": "output"
+        }
+      ],
+      "notes": "Conditioned encoder B goes to the TMC, not an MCU GPIO."
+    },
+    "DIG30": {
+      "contact": 48,
+      "signal": "PG_5V",
+      "source_net": "/PG_5V",
+      "domain": "switched-5v-pgood",
+      "declared_direction": "peripheral-output",
+      "active_low": false,
+      "mcu_connection": null,
+      "tap": null,
+      "buffer": {
+        "reference": "U1304",
+        "input_pin": "3",
+        "input_net": "/PG_5V",
+        "output_pin": "17",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG30_BUF"
+      },
+      "output_series": {
+        "reference": "R1335",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG30_ISO",
+      "passive_paths": [
+        {
+          "rail": "/+5V_SW",
+          "resistors": [
+            "R1701"
+          ],
+          "ohms": 10000.0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "high",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "R1701",
+          "pin": "2",
+          "part": "10k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U1304",
+          "pin": "3",
+          "part": "SN74LV541ARKSR",
+          "function": "A2_3",
+          "pin_type": "input"
+        },
+        {
+          "reference": "U1701",
+          "pin": "1",
+          "part": "TPSM365R6V5RDNR",
+          "function": "PGOOD_1",
+          "pin_type": "open_collector"
+        }
+      ],
+      "notes": "Direct buffer input, no input tap resistor. Pull-up source is +5V_SW."
+    },
+    "DIG31": {
+      "contact": 49,
+      "signal": "PG_12V",
+      "source_net": "/PG_12V",
+      "domain": "switched-12v-pgood",
+      "declared_direction": "peripheral-output",
+      "active_low": false,
+      "mcu_connection": null,
+      "tap": null,
+      "buffer": {
+        "reference": "U1304",
+        "input_pin": "2",
+        "input_net": "/PG_12V",
+        "output_pin": "18",
+        "output_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG31_BUF"
+      },
+      "output_series": {
+        "reference": "R1336",
+        "ohms": 100.0
+      },
+      "connector_net": "/instrument_port/instrument_port_digital_50_dut_ffc_boundary_vertical/DIG31_ISO",
+      "passive_paths": [
+        {
+          "rail": "/GND",
+          "resistors": [
+            "R1903"
+          ],
+          "ohms": 4700.0
+        },
+        {
+          "rail": "/brake_torque_sensor/+12V",
+          "resistors": [
+            "R1902"
+          ],
+          "ohms": 10000.0
+        }
+      ],
+      "bias_scenarios": {
+        "mcu-on-switched-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-on": {
+          "passive_bias": "mixed-rails",
+          "observed_logic": "not-assessed"
+        },
+        "all-rails-off": {
+          "passive_bias": "low",
+          "observed_logic": "not-assessed"
+        }
+      },
+      "source_endpoints": [
+        {
+          "reference": "R1902",
+          "pin": "2",
+          "part": "10k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "R1903",
+          "pin": "1",
+          "part": "4.7k",
+          "function": "",
+          "pin_type": "passive"
+        },
+        {
+          "reference": "U1304",
+          "pin": "2",
+          "part": "SN74LV541ARKSR",
+          "function": "A1_2",
+          "pin_type": "input"
+        },
+        {
+          "reference": "U1901",
+          "pin": "1",
+          "part": "TPSM365R6FRDNR",
+          "function": "PGOOD_1",
+          "pin_type": "open_collector"
+        }
+      ],
+      "notes": "Direct buffer input, no input tap resistor. R1902/R1903 form the 12 V divider; DIG31 is connected, not grounded."
+    }
+  },
+  "pcb_baseline_revision": "6f1bd481ecc9188e03654acd9d5a0fd6e909e80c",
+  "manufacturing_assignment_comparison": "matches saved passing pad baseline",
+  "component_model_sources": {
+    "SN74LV541ARKSR": {
+      "url": "https://www.ti.com/lit/ds/symlink/sn74lv541a.pdf",
+      "document": "SCLS410N, August 2023",
+      "local_facts": "kicad-libs/db/facts/OW-MISC-SN74LV541ARKSR.yaml",
+      "scope": "Pin pairs, enables, power supply and partial power down. Board leakage/transition behavior remains unqualified."
+    },
+    "SN74CB3Q3245RGYR": {
+      "url": "https://www.ti.com/lit/ds/symlink/sn74cb3q3245.pdf",
+      "document": "SCDS124C, August 2026",
+      "local_facts": "kicad-libs/db/facts/OW-MISC-SN74CB3Q3245RGYR.yaml",
+      "scope": "A/B pairing and active-low enable. Model traverses only explicitly declared switches."
+    }
+  },
+  "peripheral_mux": "not-assessed",
+  "limits": [
+    "Connectivity is checked against exported XML and saved PCB pad assignments, not copper geometry.",
+    "Resistor values and population are current schematic declarations, not a manufacturing/assembly comparison.",
+    "Bias scenarios assume all attached drivers are high impedance and the declared rails have settled.",
+    "Resistor paths describe topology; mixed rails require a divider/leakage/threshold analysis.",
+    "Observed logic, reset transitions, leakage, probe loading and power-off behavior are not qualified.",
+    "An unpowered observation buffer does not provide a valid logic reading, even for grounded inputs.",
+    "Direction/domain labels are board declarations; supply checks and pin endpoints are connectivity evidence."
+  ],
+  "inputs_sha256": {
+    "netlist": "1d3909e400908dff095d2f99ea494d769b4e4e9d6f9f6c236427da5198549af8",
+    "profile": "441c2a2d4de3affdb1dcdf786d022939ecee7e636d987c0ead44b7ab0466b603",
+    "board": "d5cceca2db769c5184e17c90a3486731598c741055e682d71eb300056073b942",
+    "subsystem": "4941127bfec4dae239aa1627a414646f6381259dbf4e98f88a38e2c75a9b3426",
+    "contract": "7ccf6864431d97ad6413d12ff381728aad7b3e364064ad26a8cd271b02b3620a",
+    "pcb_baseline": "0f21b9312b7b4a7e5a3dde56f9f15f3468b8e6424e45f4594e02a86b8e55bab2"
+  },
+  "monitor_profiles": [
+    {
+      "file": "mouse-joystick-v1.0.toml",
+      "sha256": "bd4ce542da783a526fcaf9169f0c1b1bda107103e6a140b5fcf5d17b98084bea"
+    },
+    {
+      "file": "profile.toml",
+      "sha256": "6531fd521ee8b8dc184d8363780dbfdd4d43e90878bfbe4291d97ee4c83ee392"
+    }
+  ]
+}

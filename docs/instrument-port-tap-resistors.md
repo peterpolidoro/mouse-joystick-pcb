@@ -6,7 +6,10 @@ branch off its functional net with a series resistor. It is written to be
 executed in a fresh session: everything needed — values, nets, owning blocks, pin
 names, part numbers and the traps — is here. See
 [As Built](#as-built-2026-09-20) for what actually landed and the two places the
-build deviated from this specification.
+build deviated from this specification. The generated
+[observation-port map](../kicad/observation/port-map.md) now checks all 24 input
+taps, 32 output resistors and connector paths against current exported
+connectivity and the saved fabrication pad assignments (2026-10-20).
 
 **Read first:** [`docs/interface-map.md`](interface-map.md) →
 [InstrumentPort-Digital-50 Pinout](interface-map.md#instrumentport-digital-50-pinout),
@@ -38,8 +41,9 @@ Three things this buys, in order of how much they matter here:
    the functional net. It does **not** hide the stub's ~12 pF from the driver —
    that would take kΩ, which costs edge fidelity. The routing win is
    topological; the SI win is damping.
-3. **Fault isolation.** A buffer input that fails shorted cannot drag the
-   functional net. See the value reasoning below.
+3. **Fault coupling.** The resistor limits current into a failed buffer input;
+   it does not guarantee the functional net remains valid. The 100 Ω case below
+   can still pull the functional signal down substantially.
 
 ## Values
 

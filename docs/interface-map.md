@@ -886,8 +886,14 @@ down with. So the `Strand` column below is what you connect in the schematic,
 one row per sheet pin, and `Pin` and `Bank` are reference information for cable,
 probe and skew work — `Bank` names the `SN74LV541A` that carries the channel.
 
+The [checked observation-port map](../kicad/observation/port-map.md) traces
+all 32 contacts through their output resistor, buffer and input tap, with
+conditional MCU paths and passive bias facts. It is regenerated from exported
+connectivity and the board-owned contract; see its limits before interpreting
+reset or power-off readings.
+
 **Read-only, and enabled by hardware with no way to disable it.** Both `~OE`
-inputs of each package are held low inside the block by `R39001`-`R39004`, there
+inputs of each package are held low by board resistors `R1301`-`R1304`, there
 is no enable port, and nothing on this connector may be driven inward. **Every
 unused input still has to be tied**, because `~OE` does not gate the input
 stage — see [Board-Level Input Biases](#board-level-input-biases).
@@ -922,12 +928,12 @@ Tapped](#where-each-signal-is-tapped).
 | `DIG13` | 21  | `U1302` | `TMC_DIAG1`      | `ISO`   | wired                                                  |
 | `DIG14` | 23  | `U1302` | `~{TMC_DRV_EN}`  | `ISO`   | wired                                                  |
 | `DIG15` | 24  | `U1302` | `LIMIT_SW`       | `block` | wired — debouncer output, never crosses the bus switch |
-| `DIG16` | 27  | `U1303` | `TQ_SPI_SCK`     | `ISO`   | switch side wired; awaiting the torque block           |
-| `DIG17` | 28  | `U1303` | `TQ_CONVST_CS`   | `ISO`   | switch side wired; awaiting the torque block           |
-| `DIG18` | 30  | `U1303` | `TQ_SPI_COPI`    | `ISO`   | switch side wired; awaiting the torque block           |
-| `DIG19` | 31  | `U1303` | `TQ_SPI_CIPO`    | `ISO`   | switch side wired; awaiting the torque block           |
-| `DIG20` | 33  | `U1303` | `TQ_CAL_EN`      | `ISO`   | switch side wired; awaiting the torque block           |
-| `DIG21` | 34  | `U1303` | `~{BRAKE_FAULT}` | `ISO`   | switch side wired; awaiting the brake block            |
+| `DIG16` | 27  | `U1303` | `TQ_SPI_SCK`     | `ISO`   | wired — torque block tap                                |
+| `DIG17` | 28  | `U1303` | `TQ_CONVST_CS`   | `ISO`   | wired — torque block tap                                |
+| `DIG18` | 30  | `U1303` | `TQ_SPI_COPI`    | `ISO`   | wired — torque block tap                                |
+| `DIG19` | 31  | `U1303` | `TQ_SPI_CIPO`    | `ISO`   | wired — torque block tap                                |
+| `DIG20` | 33  | `U1303` | `TQ_CAL_EN`      | `ISO`   | wired — torque block tap                                |
+| `DIG21` | 34  | `U1303` | `~{BRAKE_FAULT}` | `ISO`   | wired — brake fault tap                                 |
 | `DIG22` | 36  | `U1303` | `DAC_SDA`        | `ISO`   | wired                                                  |
 | `DIG23` | 37  | `U1303` | `DAC_SCL`        | `ISO`   | wired                                                  |
 | `DIG24` | 39  | `U1304` | `HV_EN`          | `MCU`   | wired                                                  |
@@ -1042,21 +1048,20 @@ rail itself, ~5.07 V worst case — 0.43 V from the 5.5 V maximum — at ~67 ns/
 against that 100 ns/V limit. Both legal; suspect `PG_5V` first if a witness
 ever misreads.
 
-**`DIG31` is still tied to GND, deliberately.** It is the intended home for the
-12 V power-good witness, and it stays a ground tie until
-`hv_to_12v_tpsm365r6` is placed, because wiring an `input` sheet pin to a net
-with no driver would put an ERC error on the board until then. When that block
-lands, this is one edit: swap the `GND` label at (129.54, 139.7) in
-`instrument_port.kicad_sch` for a hierarchical label naming the 12 V
-power-good net, and add the matching sheet pin on the root. `DIG30` is the
-worked example — and `U1304` is the right bank for both, because the edges you
-are timing are timed against `HV_EN`, which is package-matched here.
+**`DIG31` observes `PG_12V`.** The completed board connects it to
+`U1304` input pin 2; `R1902`/`R1903` form the 10 kΩ/4.7 kΩ divider from
+12 V. The earlier temporary ground tie is gone. `DIG30` observes `PG_5V`
+through input pin 3 of the same buffer, with `R1701` pulling up to 5 V.
+Both connector outputs use the buffer's `+3.3V_MCU` supply.
 
-**No channel on this port needs a bias resistor of its own.** The always-on taps
-are driven whenever the board is powered; the switched taps are defined by the
-resistors in [Board-Level Input Biases](#board-level-input-biases), which is why
-the switched-side I2C pull-ups must reference `+3.3V_SW`; and `LIMIT_SW`,
-`ENC_A` and `ENC_B` are defined by pull-downs inside their own blocks.
+**Bias belongs on the functional side of each tap.** The
+[checked bias inventory](../kicad/observation/port-map.md#passive-bias-inventory)
+records the actual resistor paths. PYC_UART_TX and HV_DIAG_EN have no external
+resistor path to a declared rail; their reset behavior needs the MCU/device
+state and internal pulls. A switched-rail pull-up predicts a low bias only
+under the stated settled-rail and high-impedance-driver assumptions. Neither
+that expectation nor an input tied to GND makes an unpowered buffer's output
+a valid logic reading.
 
 ### Board-Level Input Biases
 
@@ -1145,7 +1150,7 @@ Every placement on this board follows the rule. Inside their blocks, correctly:
 `R1505`/`R1506` (`ENCA`/`ENCB`), `R1601` (`LIMIT_SW`), `R1701` (`PG_5V`),
 `R1902`/`R1903` (`PG_12V`) and `R2012` (`TQ_SPI_CIPO`) all define their own
 block's output; `R1301`-`R1304` on the buffer `~OE` pins, `R2011` on the ADC's
-`~{RST}` and `R606` on `~{BUS_SW_EN}` are internal nodes — `R606` included,
+`~{RST}` and `R607` on `~{BUS_SW_EN}` are internal nodes — `R607` included,
 because the RP2040 that drives it lives in that same block.
 
 #### Checking clearance while it is ignored
@@ -1809,7 +1814,7 @@ once this board is verified.
 **Corrected 2026-08-17: there is no `Ioff` second line of defence.** All four
 `VCC` pins are on `+3.3V_MCU`, the always-on rail, so the packages are never
 unpowered and `Ioff` never engages. Isolation rests entirely on the MCU holding
-`~{BUS_SW_EN}` high, which `R601` makes the reset default. That is the deliberate
+`~{BUS_SW_EN}` high, which `R607` (7.87 kΩ) biases at reset. That is the deliberate
 consequence of [The Bus Switch Runs From
 `+3.3V_MCU`](#the-bus-switch-runs-from-33v_mcu) below — it is the price of being
 able to isolate *before* switching off — but it means the enable is the only

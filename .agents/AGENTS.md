@@ -181,9 +181,11 @@ The previous-generation joystick board is `~/Repositories/kicad/mouse-joystick-p
   reading firmware uses to decide the switched rail is down. This was built the
   wrong way once. Pulls that may read LOW go straight to GND. The nine board-level
   termination resistors and the reasoning for each are in `.agents/PLANS.md`.
-- **`+3.3V_SW` is held at 0 V when off by `R401`/`R402`**, the `SW_RAIL_SENSE`
-  divider. That is what makes a pull-up to that rail a valid LOW in the off state.
-  Delete the divider and four termination resistors silently stop working.
+- **`R408`/`R409` provide the passive discharge path for `+3.3V_SW`**, through
+  the `SW_RAIL_SENSE` divider. Pull-ups to that rail approach LOW once it settles
+  off, provided other drivers do not inject current. Removing the divider changes
+  that expectation. `kicad/observation/port-map.md` separates checked resistor
+  paths from unqualified reset/off-state electrical behavior.
 - pyControl owns experiment sequencing. This board owns local motion timing and
   safety. Never move experiment-level decisions into this firmware, and never
   expose unbounded trajectories or raw motor power as the normal API.

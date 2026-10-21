@@ -136,6 +136,9 @@ records the diagnosis and the rework.
 [GPIO connectivity evidence](../kicad/observation/README.md) records the checked
 current-source export consumed by firmware, its reproduction procedure and the
 completed comparison of logical pad assignments with the fabrication package.
+The [observation-port map](../kicad/observation/port-map.md) adds every Digital-50
+path, source domain, conditional MCU connection and passive bias scenario;
+measured reset/off-state behavior and peripheral mux legality remain separate.
 
 `AGENTS.md` and `.agents/` carry the agent-facing guidance, plans and handoffs
 for this repository. They assume the sibling checkouts above.

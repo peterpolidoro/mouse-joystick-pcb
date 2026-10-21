@@ -18,13 +18,29 @@ sessions.
   groups, seven renamed nets. The report and hashes are retained in
   `kicad/observation/fabrication-connectivity.json`; no copper geometry,
   assembly, current library-block or analog equivalence is inferred.
-- [ ] Extend to complete observation taps, domain/off-state and mux facts.
+- [x] Check complete observation paths and export structured domain/direction
+  declarations, selected supply pins and conditional passive bias scenarios.
+  `port-contract.json`, generated `port-facts.json` and `port-map.md` cover
+  32 channels, 24 input taps, 32 output resistors, 18 grounds and 23 MCU paths
+  (15 through isolation switches). Both monitor profiles agree, including
+  DAQ/DAC aliases. Fresh MCP XML at `bfd1399ff948e6fe9ef62bb6ead1295f3e2fb0ef`
+  matches the saved PCB baseline on every numbered pin; native Git objects
+  are unchanged from `6f1bd48`. No geometry or assembly inference.
+- [ ] Add peripheral mux/resource facts and measured reset/off-state
+  qualification. Bias scenarios assume settled rails/high-impedance drivers;
+  PYC_UART_TX and HV_DIAG_EN are undetermined by the external resistor model.
+  Unpowered buffers do not provide valid logic readings.
 
 No native KiCad file, fabrication package or bench log changed. Firmware's
 28 constants/spares compile against this export; deliberate mismatch tests
 are retained in the owning tools. See kicad-libs/PLANS readiness checkpoint.
 Second-batch validation: report replay byte-identical; library readiness
 15 tests pass. No v1.0 tag was invented and no historical package regenerated.
+Third-batch validation: library readiness now 31 tests, interface owner two
+tests, ruff passes; both new reports replay byte-identically. Deliberately
+changing R305 in a temporary XML export is rejected before report output.
+Stale DIG31/torque text and R607/R408/R409 references corrected. Changes are
+uncommitted in this repository, kicad-libs and board-interfaces.
 
 ## Documentation — complete for v1.0 (2026-10-15)
 
